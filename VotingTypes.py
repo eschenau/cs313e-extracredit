@@ -29,3 +29,26 @@ class Ballot (object):
 			self.owner += 1
 			candidates[self.votes[self.owner]].give_ballot(self)
 
+class Candidate (object):
+	'''
+	'''
+	def __init__ (self, name):
+		'''
+		'''
+		self.name = name
+		self.ballots = set()
+
+	def give_ballot (self, ballot):
+		'''
+		'''
+		self.ballots.add(ballot)
+
+	def take_ballot (self, ballot):
+		'''
+		'''
+		self.ballots.remove(ballot)
+
+	def count_ballots (self):
+		'''
+		'''
+		return len(self.ballots)
