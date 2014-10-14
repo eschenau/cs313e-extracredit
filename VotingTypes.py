@@ -35,6 +35,7 @@ class Candidate (object):
 	def __init__ (self, name):
 		self.name = name
 		self.ballots = set()
+		self.isInRunning = True
 
 	def give_ballot (self, ballot):
 		self.ballots.add(ballot)
