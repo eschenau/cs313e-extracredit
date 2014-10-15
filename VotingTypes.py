@@ -57,6 +57,7 @@ def Voting_Read (reader):
 		yield line
 
 #ESTHER to CAMERON: Don't need main function in the logic harness, put code into a separate function we import into the run harness(?)
+'''
 def main ():
 	"""
 	number_of_elections = int(reader.readline().strip()) #pull the number of elections
@@ -84,4 +85,4 @@ def main ():
 	print (Elections)
 
 	main() 
-
+'''
