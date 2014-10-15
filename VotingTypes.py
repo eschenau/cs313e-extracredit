@@ -34,20 +34,20 @@ class Candidate (object):
 	'''
 	def __init__ (self, name):
 		self.name = name
-		self.ballots = set()
+		self.ballots = []#set()
 		self.isInRunning = True
 
 	def give_ballot (self, ballot):
-		self.ballots.add(ballot)
+		self.ballots.append(ballot)
 
 	def take_ballot (self, ballot):
-		self.ballots.remove(ballot)
+		self.ballots.remove(self.ballots.index(ballot))
 
 	def count_ballots (self):
 		return len(self.ballots)
 
 class Election (object):
-	def __init__ (self, candidates):
+	def __init__ (self, candidates, ballots):
 		self.candidates = [Candidate(candidates[t]) for t in number_of_candidates]
 
 def Voting_Read (reader):
@@ -70,6 +70,8 @@ def main ():
 		line = reader.readline().strip()
 		if line == '':
 			election_number += 1
+	main() 
+
 			if election_number > 1:
 				Elections.append(Election(t) for t in Candidates)
 			continue
@@ -85,4 +87,21 @@ def main ():
 	print (Elections)
 
 	main() 
+
+	ballots.append(Ballot(int(t) for t in lines.split()))
 '''
+
+def reset ():
+	global candidates
+	global ballots
+	names = ['John Doe', 'Jane Smith', 'Sirhan Sirhan']
+	candidates = []
+	candidates = [Candidate(t) for t in names]
+	ballots = []
+	ballots.append(Ballot(1,2,3))
+	ballots.append(Ballot(1,3,2))
+	ballots.append(Ballot(2,3,1))
+	ballots.append(Ballot(2,1,3))
+	ballots.append(Ballot(3,2,1))
+	ballots.append(Ballot(3,1,2))
+	ballots.append(Ballot(1,2,3))
