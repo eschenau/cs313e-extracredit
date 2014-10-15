@@ -1,27 +1,24 @@
 #!/usr/bin/env/python3
 #Esther Schenau, Cameron Miller
-class Ballot(object):
-	def __init__(self, ballot): 
-		self.ballot = tuple(ballot)
-	
-	
+#-----Collection of Lists-------
+
+list_lines = []
+list_candidates = []
+list_ballots = []
+
+#-------------------------------
+
 
 def ReadFile (r, w): 
 	
-	#-----Collection of Lists-------
 
-	list_lines = []
-	list_candidates = []
-	list_ballots = []
-
-	#-------------------------------
 	
 	for lines in r: 
 		lines = lines.strip() 
 		list_lines.append(lines)
 	number_of_elections = int(list_lines[0])
 	list_lines.pop(0)
-
+	#Blank line is indicator of next election 
 	while len(list_lines) > 0:
 		#LOI = line of interest
 		for i in list_lines:
@@ -32,18 +29,73 @@ def ReadFile (r, w):
 				list_lines.pop(0)
 
 				for i in range (0, number_candidates):
-					list_candidates.append(list_lines[0]) 
+					list_candidates.append(Candidate(list_lines[0])) 
 					list_lines.pop(0)
 
 			else: 
 				#READ BALLOTS IN HERE
 				#make list a Ballot object
 				temp = loi.split()
-				temp = [int (c) for t in temp for c in t]
-				list_ballots.append(temp)
+				temp = tuple(int (c) for t in temp for c in t)
+
+				list_ballots.append(Ballot(temp))
 				list_lines.pop(0)
 	
 
 	print ("number of elections:", number_of_elections)
-	print ("Candidates:",list_candidates)
-	print ("Ballots:", list_ballots)
+	for index in list_candidates: 
+		index.name_candidate()
+	print ("Ballots:")
+	for thing in list_ballots: 
+		thing.show_ballot()
+
+class Ballot (object):
+	'''
+	'''
+	def __init__ (self, preferences):
+		'''
+		'''
+		self.votes = tuple(preferences)
+		self.owner = 0
+	#	list_candidates[self.votes[self.owner] - 1].give_ballot(self)
+	
+	def __iter__ (self):
+		'''
+		'''
+		return self
+	
+	#def __next__ (self):
+		'''
+		'''
+	#	while not list_candidates[self.votes[self.owner]].isInRunning:
+	#		list_candidates[self.votes[self.owner] - 1].take_ballot(self)
+	#		self.owner += 1
+	#		list_candidates[self.votes[self.owner] - 1].give_ballot(self)
+	
+	def show_ballot (self): 
+		print (self.votes)
+
+
+class Candidate (object):
+	'''
+	'''
+	def __init__ (self, name):
+		self.name = name
+		self.ballots = []#set()
+		self.isInRunning = True
+	def name_candidate(self):
+		print (self.name)
+
+	def give_ballot (self, ballot):
+		self.ballots.append(ballot)
+
+	def take_ballot (self, ballot):
+		self.ballots.remove(self.ballots.index(ballot))
+
+	def count_ballots (self):
+		return len(self.ballots)
+
+
+class Election (object): 
+	#TBD
+	pass
