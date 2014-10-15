@@ -9,12 +9,12 @@
 class Ballot (object):
 	'''
 	'''
-	def __init__ (self, preferences):
+	def __init__ (self, *preferences):
 		'''
 		'''
 		self.votes = tuple(preferences)
 		self.owner = 0
-		candidates[self.votes[self.owner]].give_ballot(self)
+		candidates[self.votes[self.owner] - 1].give_ballot(self)
 	
 	def __iter__ (self):
 		'''
@@ -25,9 +25,9 @@ class Ballot (object):
 		'''
 		'''
 		while not candidates[self.votes[self.owner]].isInRunning:
-			candidates[self.votes[self.owner]].take_ballot(self)
+			candidates[self.votes[self.owner] - 1].take_ballot(self)
 			self.owner += 1
-			candidates[self.votes[self.owner]].give_ballot(self)
+			candidates[self.votes[self.owner] - 1].give_ballot(self)
 
 class Candidate (object):
 	'''
