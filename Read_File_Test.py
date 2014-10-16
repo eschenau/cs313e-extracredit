@@ -11,8 +11,6 @@ list_ballots = []
 
 def ReadFile (r, w): 
 	
-
-	
 	for lines in r: 
 		lines = lines.strip() 
 		list_lines.append(lines)
@@ -23,9 +21,10 @@ def ReadFile (r, w):
 		#LOI = line of interest
 		for i in list_lines:
 			loi = list_lines[0]
+			
 			if loi == "": 
 				list_lines.pop(0)
-				number_candidates = int(list_lines [0])
+				number_candidates = int(list_lines[0])
 				list_lines.pop(0)
 
 				for i in range (0, number_candidates):
@@ -40,40 +39,15 @@ def ReadFile (r, w):
 
 				list_ballots.append(Ballot(temp))
 				list_lines.pop(0)
-	
 
-	print ("number of elections:", number_of_elections)
+	print ("Elections:", number_of_elections)
+	print ("Candidates:", len(list_candidates))
 	for index in list_candidates: 
 		index.name_candidate()
+		print (index.count_ballots())
 	print ("Ballots:")
 	for thing in list_ballots: 
 		thing.show_ballot()
-
-class Ballot (object):
-	'''
-	'''
-	def __init__ (self, preferences):
-		'''
-		'''
-		self.votes = tuple(preferences)
-		self.owner = 0
-	#	list_candidates[self.votes[self.owner] - 1].give_ballot(self)
-	
-	def __iter__ (self):
-		'''
-		'''
-		return self
-	
-	#def __next__ (self):
-		'''
-		'''
-	#	while not list_candidates[self.votes[self.owner]].isInRunning:
-	#		list_candidates[self.votes[self.owner] - 1].take_ballot(self)
-	#		self.owner += 1
-	#		list_candidates[self.votes[self.owner] - 1].give_ballot(self)
-	
-	def show_ballot (self): 
-		print (self.votes)
 
 
 class Candidate (object):
@@ -84,7 +58,7 @@ class Candidate (object):
 		self.ballots = []#set()
 		self.isInRunning = True
 	def name_candidate(self):
-		print (self.name)
+		print (self.name, end = " ")
 
 	def give_ballot (self, ballot):
 		self.ballots.append(ballot)
@@ -94,8 +68,24 @@ class Candidate (object):
 
 	def count_ballots (self):
 		return len(self.ballots)
+class Ballot (Candidate):
+	'''
+	'''
+	def __init__ (self, preferences):
+		'''
+		'''
+		self.votes = tuple(preferences)
+		self.owner = 0
+		list_candidates[self.votes[self.owner] - 1].give_ballot(self)
+
+	def show_ballot (self): 
+		print (self.votes)
+
+
+
 
 
 class Election (object): 
-	#TBD
 	pass
+
+
