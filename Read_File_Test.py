@@ -52,11 +52,18 @@ def ReadFile (r, w):
 
 
 class Election(object): 
+
 	def __init__(self): 
-		list_ballots = []
-		list_candidates = []
+		self.list_ballots = []
+		self.list_candidates = []
+		self.hasWinner = False
+		self.hasTie = False
 
-
+	def add_candidate(self, candidate):
+		self.list_candidates.append(candidate)
+	
+	def add_ballot(self, ballot):
+		self.list_ballots.append(ballot)
 
 class Candidate (Election):
 	'''
@@ -76,6 +83,7 @@ class Candidate (Election):
 
 	def count_ballots (self):
 		return len(self.ballots)
+
 class Ballot (Candidate):
 	'''
 	'''
@@ -88,9 +96,3 @@ class Ballot (Candidate):
 
 	def show_ballot (self): 
 		print (self.votes)
-
-
-
-class Election (object): 
-	pass
-
