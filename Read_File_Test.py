@@ -3,6 +3,9 @@
 #-----Collection of Lists-------
 
 list_lines = []
+
+
+
 list_candidates = []
 list_ballots = []
 
@@ -14,32 +17,47 @@ def ReadFile (r, w):
 	for lines in r: 
 		lines = lines.strip() 
 		list_lines.append(lines)
+	
 	number_of_elections = int(list_lines[0])
+	list_elections = [Election() for i in range (number_of_elections)] 
+	index_election = 0
+	
 	list_lines.pop(0)
+	
 	#Blank line is indicator of next election 
 	while len(list_lines) > 0:
 		#LOI = line of interest
 		for i in list_lines:
 			loi = list_lines[0]
-			
+			#print (loi)
 			if loi == "": 
+				print ("ENTERED IF")
 				list_lines.pop(0)
-				number_candidates = int(list_lines[0])
-				list_lines.pop(0)
+				number_candidates = int (list_lines.pop(0))
+				print ("NUMBER CAND:", number_candidates)
 
 				for i in range (0, number_candidates):
-					list_candidates.append(Candidate(list_lines[0])) 
-					list_lines.pop(0)
+					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
+				
+				print ("Current line:", list_lines[0])
+				#----Troubleshooting loop------------------------------
+				for candidate in list_elections[index_election].list_candidates:
+					print (candidate.name)
 
-			else: 
+				#------------------------------------------------------
+				while list_lines[0] != "": 
+					print("Loi:", list_lines[0])  
 				#READ BALLOTS IN HERE
 				#make list a Ballot object
-				temp = loi.split()
-				temp = tuple(int (c) for t in temp for c in t)
+					temp = list_lines[0].strip()
+					temp = list_lines[0].split()
+					temp = [int (c) for t in temp for c in t]
+					list_elections[index_election].add_ballot(Ballot(temp))
+					list_lines.pop(0)
+			index_election += 1
 
-				list_ballots.append(Ballot(temp))
-				list_lines.pop(0)
 
+	"""
 	print ("Elections:", number_of_elections)
 	print ("Candidates:", len(list_candidates))
 	print ("Ballots:", len(list_ballots))
@@ -49,6 +67,7 @@ def ReadFile (r, w):
 	print ("Ballots:")
 	for thing in list_ballots: 
 		thing.show_ballot()
+	"""
 
 
 class Election(object): 
@@ -65,6 +84,7 @@ class Election(object):
 	def add_ballot(self, ballot):
 		self.list_ballots.append(ballot)
 
+
 class Candidate (Election):
 	'''
 	'''
@@ -72,8 +92,6 @@ class Candidate (Election):
 		self.name = name
 		self.ballots = []#set()
 		self.isInRunning = True
-	def name_candidate(self):
-		print (self.name, end = " ")
 
 	def give_ballot (self, ballot):
 		self.ballots.append(ballot)
