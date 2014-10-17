@@ -50,8 +50,7 @@ def ReadFile (r, w):
 	p = iter(f)
 	number_of_elections = next(p)
 	print ("Elections:", number_of_elections)
-	if next(p) == "": 
-		print ("hi")
+	next(p)
 
 
 
