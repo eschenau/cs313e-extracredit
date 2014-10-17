@@ -29,3 +29,6 @@ class Election(object):
 				if candy.isInRunning:
 					candy.isWinner = True
 		return theresatie
+	
+	def mark_the_losers (self):
+		
