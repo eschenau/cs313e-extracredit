@@ -42,6 +42,7 @@ def ReadFile (r, w):
 
 	print ("Elections:", number_of_elections)
 	print ("Candidates:", len(list_candidates))
+	print ("Ballots:", len(list_ballots))
 	for index in list_candidates: 
 		index.name_candidate()
 		print (index.count_ballots())
@@ -50,7 +51,14 @@ def ReadFile (r, w):
 		thing.show_ballot()
 
 
-class Candidate (object):
+class Election(object): 
+	def __init__(self): 
+		list_ballots = []
+		list_candidates = []
+
+
+
+class Candidate (Election):
 	'''
 	'''
 	def __init__ (self, name):
@@ -80,8 +88,6 @@ class Ballot (Candidate):
 
 	def show_ballot (self): 
 		print (self.votes)
-
-
 
 
 
