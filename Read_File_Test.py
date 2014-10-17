@@ -3,8 +3,19 @@
 #-----Collection of Lists-------
 
 list_lines = []
+list_candidates =[]
+list_ballots = []
 
 #-------------------------------
+class Election(object): 
+	def __init__(self): 
+		list_candidates = []
+		list_ballots = [] 
+	def readCandidates(self,candidate): 
+		list_candidates.append()
+	def readBallots(self,ballot): 
+		list_ballots.append(ballot)
+
 
 class Candidate (object):
 	'''
@@ -50,17 +61,26 @@ def ReadFile(r,w):
 			loi = list_lines[0]
 			if loi == "":
 				#PROCESS OLD ELECTION
-	 			#START OF NEW ELECTION
+	 			new_election = Election() #START OF NEW ELECTION
+				
 				list_lines.pop(0)
 				number_candidates = int(list_lines[0])
 				list_lines.pop(0)
 
 				for i in range (0, number_candidates):
-					list_candidates = []
+					"""
+					"""	
 					list_candidates.append(Candidate(list_lines[0])) 
+					#new_election.readCandidates(Candidate(list_lines[0]))
 					list_lines.pop(0)
+				'''while j in list_lines != "": 
+					temp = loi.split()
+					temp = tuple(int (c) for t in temp for c in t)
+					new_election.readBallots(Ballot(temp))
+					list_lines.pop(0)
+
+				'''
 			else: 
-				list_ballots = []
 				temp = loi.split()
 				temp = tuple(int (c) for t in temp for c in t)
 				list_ballots.append(Ballot(temp))
@@ -76,4 +96,3 @@ def ReadFile(r,w):
 	for thing in list_ballots: 
 		thing.show_ballot()
 
-"""
