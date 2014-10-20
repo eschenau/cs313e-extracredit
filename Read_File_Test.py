@@ -65,6 +65,7 @@ class Election(object):
 		self.list_ballots = []
 		self.hasWinner = False
 		self.hasTie = False
+		self.winner = None
 
 	def add_candidate(self, candidate):
 		self.list_candidates.append(candidate)
@@ -73,6 +74,19 @@ class Election(object):
 		self.list_ballots.append(ballot)
 	def return_Candidates(self): 
 		return self.list_candidates
+	
+	def look_for_winner (self):
+		for t in range(len(self.list_candidates)):
+			if self.list_candidates[t].count_ballots > .5 * len(self.list_ballots):
+				self.hasWinner = True
+				for candidate in self.list_candidates[:t]:
+					candidate.isInRunning = False
+				for candidate in self.list_candidates[t + 1:]:
+					candidate.isInRunning = False
+				self.winner = self.list_candidates[t].name
+	
+	def look_for_tie (self):
+		pass
 
 class Candidate (Election):
 	'''
