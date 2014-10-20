@@ -98,6 +98,9 @@ class Election(object):
 				if candidates.isInRunning:
 					candidate.isWinner = True
 		return theres_a_tie
+	
+	def mark_the_losers (self):
+		pass
 
 class Candidate (Election):
 	'''
