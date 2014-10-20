@@ -77,8 +77,11 @@ class Election(object):
 	
 	def look_for_winner (self):
 		for t in range(len(self.list_candidates)):
+			if not self.list_candidates[t].isInRunning:
+				continue
 			if self.list_candidates[t].count_ballots > .5 * len(self.list_ballots):
 				self.hasWinner = True
+				self.list_candidates[t].isWinner = True
 				for candidate in self.list_candidates[:t]:
 					candidate.isInRunning = False
 				for candidate in self.list_candidates[t + 1:]:
@@ -86,7 +89,15 @@ class Election(object):
 				self.winner = list(self.list_candidates[t].name)
 	
 	def look_for_tie (self):
-		pass
+		tie_check = [self.list_candidates[0].count_ballots() == candidate.count_ballots() for candidate in self.list_candidates[1:] if candidate.isInRunning]
+		theres_a_tie = True
+		for check in tie_check:
+			theres_a_tie = theres_a_tie and check
+		if theres_a_tie:
+			for candidate in self.list_candidates:
+				if candidates.isInRunning:
+					candidate.isWinner = True
+		return theres_a_tie
 
 class Candidate (Election):
 	'''
