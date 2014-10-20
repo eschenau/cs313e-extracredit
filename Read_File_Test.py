@@ -27,7 +27,7 @@ def ReadFile (r, w):
 		for i in list_lines:
 			loi = list_lines[0]
 			#print (loi)
-			if loi == "": 
+			if loi == "" and list_lines: 
 				index_election+=1
 
 				print ("Election Number:", index_election)
@@ -43,23 +43,19 @@ def ReadFile (r, w):
 					print (candidate.count_ballots())
 
 				#------------------------------------------------------
-	
-				while list_lines[0] != "": 
-					if list_lines[0]== "": 
-						break
-				#READ BALLOTS IN HERE
-				#make list a Ballot object
-					temp = list_lines[0].strip()
-					temp = list_lines[0].split()
-					temp = [int (t) for t in temp]
-					t = Ballot(temp) 
-					list_elections[index_election].add_ballot(t.init_owner())
-					list_lines.pop(0)
-			else: 
-				print ("EOF")
+				
 
+				try: 
+					while list_lines[0] != "": 
 
-
+						temp = list_lines[0].strip()
+						temp = list_lines[0].split()
+						temp = [int (t) for t in temp]
+						t = Ballot(temp) 
+						list_elections[index_election].add_ballot(t.init_owner())
+						list_lines.pop(0)
+				except IndexError: 
+					print ("EOF?")
 
 class Election(object): 
 	list_candidates = []
