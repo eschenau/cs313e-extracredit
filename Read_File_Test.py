@@ -37,13 +37,6 @@ def ReadFile (r, w):
 
 				for i in range (0, number_candidates):
 					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
-				#----Troubleshooting loop------------------------------
-				for candidate in list_elections[index_election].list_candidates:
-					print ("Name:", candidate.name, end = " ")
-					print (candidate.count_ballots())
-
-				#------------------------------------------------------
-				
 
 				try: 
 					while list_lines[0] != "": 
@@ -56,7 +49,14 @@ def ReadFile (r, w):
 						list_lines.pop(0)
 				except IndexError: 
 					print ("EOF?")
+				
+				#----Troubleshooting loop------------------------------
 
+				for candidate in list_elections[index_election].list_candidates:
+					print ("Name:", candidate.name, end = " ")
+					print (candidate.count_ballots())
+
+				#------------------------------------------------------
 class Election(object): 
 
 	def __init__(self):
