@@ -47,14 +47,15 @@ def ReadFile (r, w):
 						t = Ballot(temp) 
 						list_elections[index_election].add_ballot(t.init_owner(list_elections[index_election].return_Candidates()))
 						list_lines.pop(0)
-				except IndexError: 
-					print ("EOF?")
 				
+				except IndexError: 
+					pass
 				#----Troubleshooting loop------------------------------
 
+				
 				for candidate in list_elections[index_election].list_candidates:
 					print ("Name:", candidate.name, end = " ")
-					print (candidate.count_ballots())
+					print (candidate.count_ballots())	
 
 				#------------------------------------------------------
 class Election(object): 
