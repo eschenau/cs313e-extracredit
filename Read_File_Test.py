@@ -52,24 +52,26 @@ def ReadFile (r, w):
 						temp = list_lines[0].split()
 						temp = [int (t) for t in temp]
 						t = Ballot(temp) 
-						list_elections[index_election].add_ballot(t.init_owner())
+						list_elections[index_election].add_ballot(t.init_owner(list_elections[index_election].return_Candidates()))
 						list_lines.pop(0)
 				except IndexError: 
 					print ("EOF?")
 
 class Election(object): 
-	list_candidates = []
 
 	def __init__(self):
+		self.list_candidates = []
 		self.list_ballots = []
 		self.hasWinner = False
 		self.hasTie = False
 
 	def add_candidate(self, candidate):
 		self.list_candidates.append(candidate)
-	
+
 	def add_ballot(self, ballot):
 		self.list_ballots.append(ballot)
+	def return_Candidates(self): 
+		return self.list_candidates
 
 class Candidate (Election):
 	'''
@@ -95,10 +97,9 @@ class Ballot (Candidate):
 		'''
 		'''
 		self.votes = tuple(preferences)
-		assert len(self.list_candidates) > 0
 		#self.owner = 0
-	def init_owner (self): 
-		self.list_candidates[self.votes[0] - 1].give_ballot(self)
+	def init_owner (self, list_candidates): 
+		list_candidates[self.votes[0] - 1].give_ballot(self)
 
 	def show_ballot (self): 
 		print (self.votes)
