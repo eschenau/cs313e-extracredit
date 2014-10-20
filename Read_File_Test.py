@@ -19,6 +19,8 @@ def ReadFile (r, w):
 	index_election = -1
 	list_lines.pop(0)
 	
+
+
 	#Blank line is indicator of next election 
 	while len(list_lines) > 0:
 		#LOI = line of interest
@@ -37,17 +39,14 @@ def ReadFile (r, w):
 					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
 				#----Troubleshooting loop------------------------------
 				for candidate in list_elections[index_election].list_candidates:
-					print ("Name:", candidate.name)
+					print ("Name:", candidate.name, end = " ")
+					print (candidate.count_ballots())
 
 				#------------------------------------------------------
-				if not list_lines: 
-					print ("EOF")
-
+	
 				while list_lines[0] != "": 
 					if list_lines[0]== "": 
-
 						break
-					print("Loi:", list_lines[0])  
 				#READ BALLOTS IN HERE
 				#make list a Ballot object
 					temp = list_lines[0].strip()
@@ -56,19 +55,10 @@ def ReadFile (r, w):
 					t = Ballot(temp) 
 					list_elections[index_election].add_ballot(t.init_owner())
 					list_lines.pop(0)
+			else: 
+				print ("EOF")
 
 
-	"""
-	print ("Elections:", number_of_elections)
-	print ("Candidates:", len(list_candidates))
-	print ("Ballots:", len(list_ballots))
-	for index in list_candidates: 
-		index.name_candidate()
-		print (index.count_ballots())
-	print ("Ballots:")
-	for thing in list_ballots: 
-		thing.show_ballot()
-	"""
 
 
 class Election(object): 
@@ -84,7 +74,6 @@ class Election(object):
 	
 	def add_ballot(self, ballot):
 		self.list_ballots.append(ballot)
-
 
 class Candidate (Election):
 	'''
