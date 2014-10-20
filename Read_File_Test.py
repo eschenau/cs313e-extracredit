@@ -4,11 +4,6 @@
 
 list_lines = []
 
-
-
-list_candidates = []
-list_ballots = []
-
 #-------------------------------
 
 
@@ -19,9 +14,9 @@ def ReadFile (r, w):
 		list_lines.append(lines)
 	
 	number_of_elections = int(list_lines[0])
+	print ("Election Count:", number_of_elections)
 	list_elections = [Election() for i in range (number_of_elections)] 
-	index_election = 0
-	
+	index_election = -1
 	list_lines.pop(0)
 	
 	#Blank line is indicator of next election 
@@ -31,30 +26,36 @@ def ReadFile (r, w):
 			loi = list_lines[0]
 			#print (loi)
 			if loi == "": 
-				print ("ENTERED IF")
+				index_election+=1
+
+				print ("Election Number:", index_election)
 				list_lines.pop(0)
 				number_candidates = int (list_lines.pop(0))
 				print ("NUMBER CAND:", number_candidates)
 
 				for i in range (0, number_candidates):
 					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
-				
-				print ("Current line:", list_lines[0])
 				#----Troubleshooting loop------------------------------
 				for candidate in list_elections[index_election].list_candidates:
-					print (candidate.name)
+					print ("Name:", candidate.name)
 
 				#------------------------------------------------------
+				if not list_lines: 
+					print ("EOF")
+
 				while list_lines[0] != "": 
+					if list_lines[0]== "": 
+
+						break
 					print("Loi:", list_lines[0])  
 				#READ BALLOTS IN HERE
 				#make list a Ballot object
 					temp = list_lines[0].strip()
 					temp = list_lines[0].split()
-					temp = [int (c) for t in temp for c in t]
-					list_elections[index_election].add_ballot(Ballot(temp))
+					temp = [int (t) for t in temp]
+					t = Ballot(temp) 
+					list_elections[index_election].add_ballot(t.init_owner())
 					list_lines.pop(0)
-			index_election += 1
 
 
 	"""
@@ -71,10 +72,10 @@ def ReadFile (r, w):
 
 
 class Election(object): 
+	list_candidates = []
 
-	def __init__(self): 
+	def __init__(self):
 		self.list_ballots = []
-		self.list_candidates = []
 		self.hasWinner = False
 		self.hasTie = False
 
@@ -109,8 +110,13 @@ class Ballot (Candidate):
 		'''
 		'''
 		self.votes = tuple(preferences)
-		self.owner = 0
-		list_candidates[self.votes[self.owner] - 1].give_ballot(self)
+		assert len(self.list_candidates) > 0
+		#self.owner = 0
+	def init_owner (self): 
+		self.list_candidates[self.votes[0] - 1].give_ballot(self)
 
 	def show_ballot (self): 
 		print (self.votes)
+
+
+
