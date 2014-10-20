@@ -65,7 +65,7 @@ class Election(object):
 		self.list_ballots = []
 		self.hasWinner = False
 		self.hasTie = False
-		self.winner = None
+		self.winner = []
 
 	def add_candidate(self, candidate):
 		self.list_candidates.append(candidate)
@@ -83,7 +83,7 @@ class Election(object):
 					candidate.isInRunning = False
 				for candidate in self.list_candidates[t + 1:]:
 					candidate.isInRunning = False
-				self.winner = self.list_candidates[t].name
+				self.winner = list(self.list_candidates[t].name)
 	
 	def look_for_tie (self):
 		pass
