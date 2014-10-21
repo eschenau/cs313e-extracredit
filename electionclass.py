@@ -40,7 +40,10 @@ class Election(object):
 		losers = [t for t in self.list_candidates if not self.list_candidates[t].isInRunning]
 		for non_candidate in losers:
 			for ballot in non_candidate.ballots:
-				
+				while not self.list_candidates[ballot.owner].isInRunning:
+					self.list_candidates[ballot.owner].take_ballot(ballot)
+					ballot.owner += 1
+					self.list_candidates[ballot.owner].give_ballot(ballot)
 
 
 
