@@ -4,15 +4,17 @@
 
 list_lines = []
 
-#-------------------------------
 
-
-def ReadFile (r, w): 
-	
+def readFile (r):
 	for lines in r: 
 		lines = lines.strip() 
 		list_lines.append(lines)
-	
+	return list_lines
+#-------------------------------
+
+def VotingSolve(r,w):
+
+	readFile(r)
 	number_of_elections = int(list_lines[0])
 	print ("Election Count:", number_of_elections)
 	list_elections = [Election() for i in range (number_of_elections)] 
@@ -58,6 +60,9 @@ def ReadFile (r, w):
 					print (candidate.count_ballots())	
 
 				#------------------------------------------------------
+
+
+				
 class Election(object): 
 
 	def __init__(self):
