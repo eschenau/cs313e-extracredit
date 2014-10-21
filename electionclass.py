@@ -31,4 +31,29 @@ class Election(object):
 		return theresatie
 	
 	def mark_the_losers (self):
-		
+		loss_threshold = min(t.count_ballots() for t in self.list_candidates)
+		for cand in self.list_candidates:
+			if cand.count_ballots() == loss_threshold:
+				cand.isInRunning = False
+
+	def pass_votes (self):
+		losers = [t for t in self.list_candidates if not self.list_candidates[t].isInRunning]
+		for non_candidate in losers:
+			for ballot in non_candidate.ballots:
+				
+
+
+
+'''		
+var = genFile(reader)
+instruction, value = var
+if instruction == 'Candidate':
+	list_candidates += [Candidate(value)]
+if instruction == 'Ballot':
+	list_ballots += [Ballot(value)]
+
+instruction = var[0]
+value = var[1]
+
+
+variable = next(generator)
