@@ -4,6 +4,6 @@
 
 import sys
 
-from Read_File_Test import ReadFile
+from Read_File_Test import VotingSolve
 
-ReadFile(sys.stdin, sys.stdout)
+VotingSolve(sys.stdin, sys.stdout)
