@@ -20,8 +20,6 @@ def VotingSolve(r,w):
 	list_elections = [Election() for i in range (number_of_elections)] 
 	index_election = -1
 	list_lines.pop(0)
-	
-
 
 	#Blank line is indicator of next election 
 	while len(list_lines) > 0:
@@ -30,12 +28,25 @@ def VotingSolve(r,w):
 			loi = list_lines[0]
 			#print (loi)
 			if loi == "" and list_lines: 
+				
+				if index_election > -1: 
+					#PROCESS ALL THIS SHIT HERE
+					#Give ballots to initial owners
+					#for t in list_elections[index_election].list_ballots:
+					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
+					list_elections[index_election].look_for_winner()
+					list_elections[index_election].look_for_tie()
+
+
+
+
+
 				index_election+=1
 
 				print ("Election Number:", index_election)
 				list_lines.pop(0)
 				number_candidates = int (list_lines.pop(0))
-				print ("NUMBER CAND:", number_candidates)
+				#print ("NUMBER CAND:", number_candidates)
 
 				for i in range (0, number_candidates):
 					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
@@ -47,20 +58,51 @@ def VotingSolve(r,w):
 						temp = list_lines[0].split()
 						temp = [int (t) for t in temp]
 						t = Ballot(temp) 
-						list_elections[index_election].add_ballot(t.init_owner(list_elections[index_election].return_Candidates()))
+						list_elections[index_election].add_ballot(t)
+						list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
+
 						list_lines.pop(0)
-				
+
+		
 				except IndexError: 
-					pass
-				#----Troubleshooting loop------------------------------
+								#----Troubleshooting loop------------------------------
 
 				
-				for candidate in list_elections[index_election].list_candidates:
-					print ("Name:", candidate.name, end = " ")
-					print (candidate.count_ballots())	
+					for candidate in list_elections[index_election].list_candidates:
+						#print ("Name:", candidate.name, end = " ")
+						#print (candidate.count_ballots())	
+						pass
 
 				#------------------------------------------------------
 
+
+					print ("EOF?")
+
+
+		
+
+
+
+
+
+
+"""
+
+Election Logic
+
+Giving to first owner	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
+
+1. Give ballots to first owner
+2. Check for winner
+3. Check for tie_check
+4. Mark losers
+5. Pass votes of losers to the preferences
+6. Repeat Steps 2-5
+
+
+
+
+"""
 
 				
 class Election(object): 
@@ -84,14 +126,22 @@ class Election(object):
 		for t in range(len(self.list_candidates)):
 			if not self.list_candidates[t].isInRunning:
 				continue
-			if self.list_candidates[t].count_ballots > .5 * len(self.list_ballots):
+			assert self.list_candidates
+			if self.list_candidates[t].count_ballots() > .5 * len(self.list_ballots):
 				self.hasWinner = True
-				self.list_candidates[t].isWinner = True
+				self.list_candidates[t].isWinner = True 
 				for candidate in self.list_candidates[:t]:
 					candidate.isInRunning = False
 				for candidate in self.list_candidates[t + 1:]:
 					candidate.isInRunning = False
-				self.winner = list(self.list_candidates[t].name)
+				self.winner = [self.list_candidates[t].name]
+		
+		print ("Ballot length in election:", len(self.list_ballots))
+
+		print ("Length of Candidate List:", len(self.list_candidates))
+		print ('is there a winner?', self.hasWinner)
+		print ("winner:",self.winner)
+		return self.hasWinner
 	
 	def look_for_tie (self):
 		tie_check = [self.list_candidates[0].count_ballots() == candidate.count_ballots() for candidate in self.list_candidates[1:] if candidate.isInRunning]
@@ -100,12 +150,27 @@ class Election(object):
 			theres_a_tie = theres_a_tie and check
 		if theres_a_tie:
 			for candidate in self.list_candidates:
-				if candidates.isInRunning:
+				if candidate.isInRunning:
 					candidate.isWinner = True
+				self.winner = [cand.name for cand in self.list_candidates if cand.isInRunning]
+
+			print ("There's a tie.")
 		return theres_a_tie
-	
+
 	def mark_the_losers (self):
-		pass
+		loss_threshold = min(t.count_ballots() for t in self.list_candidates)
+		for cand in self.list_candidates:
+			if cand.count_ballots() == loss_threshold:
+				cand.isInRunning = False
+
+	def pass_votes (self):
+		losers = [t for t in self.list_candidates if not self.list_candidates[t].isInRunning]
+		for non_candidate in losers:
+			for ballot in non_candidate.ballots:
+				while not self.list_candidates[ballot.owner].isInRunning:
+					self.list_candidates[ballot.owner].take_ballot(ballot)
+					ballot.owner += 1
+					self.list_candidates[ballot.owner].give_ballot(ballot)
 
 class Candidate (Election):
 	'''
@@ -131,7 +196,8 @@ class Ballot (Candidate):
 		'''
 		'''
 		self.votes = tuple(preferences)
-		#self.owner = 0
+		self.owner = 0
+
 	def init_owner (self, list_candidates): 
 		list_candidates[self.votes[0] - 1].give_ballot(self)
 
