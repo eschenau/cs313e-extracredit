@@ -34,8 +34,15 @@ def VotingSolve(r,w):
 					#Give ballots to initial owners
 					#for t in list_elections[index_election].list_ballots:
 					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-					list_elections[index_election].look_for_winner()
-					list_elections[index_election].look_for_tie()
+					winner = list_elections[index_election].look_for_winner()
+					if not winner: tie = list_elections[index_election].look_for_tie()
+					if not winner and not tie:
+						list_elections[index_election].mark_the_losers()
+						list_elections[index_election].pass_votes()
+
+
+
+
 
 				index_election+=1
 
@@ -156,7 +163,7 @@ class Election(object):
 	def mark_the_losers (self):
 		loss_threshold = min(t.count_ballots() for t in self.list_candidates)
 		for cand in self.list_candidates:
-			if cand.count_ballots() == loss_threshold:
+			if cand.count_ballots() <= loss_threshold:
 				cand.isInRunning = False
 
 	def pass_votes (self):
