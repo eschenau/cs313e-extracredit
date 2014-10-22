@@ -12,6 +12,23 @@ def readFile (r):
 	return list_lines
 #-------------------------------
 
+def RunElection(election):
+	icount = 0
+	while not (election.hasWinner or election.hasTie) and icount < 1:
+		winner = election.look_for_winner()
+		if not winner:
+			tie = election.look_for_tie()
+		if not (winner or tie):
+			election.mark_the_losers()
+			election.pass_votes()
+		for ca in election.list_candidates:
+			print(ca.name + ' is winner? ' + str(ca.isWinner) + '. is loser? ' + str(ca.isInRunning == False))
+			for ba in ca.ballots:
+				print(str(ba) + '. owner ' + str(ba.votes[ba.owner] - 1))
+		delay = [t for t in range(10**7)]
+		del delay
+		icount += 1
+
 def VotingSolve(r,w):
 
 	readFile(r)
@@ -34,13 +51,14 @@ def VotingSolve(r,w):
 					#Give ballots to initial owners
 					#for t in list_elections[index_election].list_ballots:
 					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-					winner = list_elections[index_election].look_for_winner()
-					if not winner: tie = list_elections[index_election].look_for_tie()
-					if not winner and not tie:
-						list_elections[index_election].mark_the_losers()
-						list_elections[index_election].pass_votes()
+					RunElection(list_elections[index_election])
 				print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+				#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
 				print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
+				#for c in list_elections[index_election].list_candidates:
+				#	print (c.name)
+				#	for b in c.ballots:
+				#		print (b)
 
 
 
@@ -84,13 +102,14 @@ def VotingSolve(r,w):
 
 					print ("EOF?")
 	else:
-		winner = list_elections[index_election].look_for_winner()
-		if not winner: tie = list_elections[index_election].look_for_tie()
-		if not winner and not tie:
-			list_elections[index_election].mark_the_losers()
-			list_elections[index_election].pass_votes()
+		RunElection(list_elections[index_election])
 		print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+		#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
 		print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
+		for c in list_elections[index_election].list_candidates:
+			print (c.name)
+			for b in c.ballots:
+				print (b)
 """
 
 Election Logic
@@ -161,6 +180,7 @@ class Election(object):
 				self.winner = [cand.name for cand in self.list_candidates if cand.isInRunning]
 			print ("There's a tie.")
 			print(self.winner)
+		self.hasTie = theres_a_tie
 		return theres_a_tie
 
 	def mark_the_losers (self):
@@ -173,8 +193,8 @@ class Election(object):
 		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
 			for ballot in non_candidate.ballots:
+				self.list_candidates[ballot.votes[ballot.owner] - 1].take_ballot(ballot)
 				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
-					#self.list_candidates[ballot.votes[ballot.owner] - 1].take_ballot(ballot)
 					ballot.owner += 1
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 
@@ -185,6 +205,7 @@ class Candidate (Election):
 		self.name = name
 		self.ballots = []#set()
 		self.isInRunning = True
+		self.isWinner = False
 
 	def give_ballot (self, ballot):
 		self.ballots.append(ballot)
@@ -204,8 +225,8 @@ class Ballot (Candidate):
 		self.votes = tuple(preferences)
 		self.owner = 0
 
-	def init_owner (self, list_candidates): 
-		list_candidates[self.votes[0] - 1].give_ballot(self)
+	#def init_owner (self, list_candidates): 
+	#	list_candidates[self.votes[0] - 1].give_ballot(self)
 
 	def show_ballot (self): 
 		print (self.votes)
