@@ -27,7 +27,7 @@ def VotingSolve(r,w):
 		for i in list_lines:
 			loi = list_lines[0]
 			#print (loi)
-			if loi == "" and list_lines: 
+			if loi == "":# and list_lines: 
 				
 				if index_election > -1: 
 					#PROCESS ALL THIS SHIT HERE
@@ -39,8 +39,8 @@ def VotingSolve(r,w):
 					if not winner and not tie:
 						list_elections[index_election].mark_the_losers()
 						list_elections[index_election].pass_votes()
-
-
+				print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+				print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
 
 
 
@@ -55,7 +55,7 @@ def VotingSolve(r,w):
 					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
 
 				try: 
-					while list_lines[0] != "": 
+					while list_lines and list_lines[0] != "": 
 
 						temp = list_lines[0].strip()
 						temp = list_lines[0].split()
@@ -68,11 +68,11 @@ def VotingSolve(r,w):
 
 		
 				except IndexError: 
-					winner = list_elections[index_election - 1].look_for_winner()
-					if not winner: tie = list_elections[index_election - 1].look_for_tie()
-					if not winner and not tie:
-						list_elections[index_election - 1].mark_the_losers()
-						list_elections[index_election - 1].pass_votes()
+					#winner = list_elections[index_election - 1].look_for_winner()
+					#if not winner: tie = list_elections[index_election - 1].look_for_tie()
+					#if not winner and not tie:
+					#	list_elections[index_election - 1].mark_the_losers()
+					#	list_elections[index_election - 1].pass_votes()
 					#----Troubleshooting loop------------------------------
 				
 					#for candidate in list_elections[index_election].list_candidates:
@@ -83,15 +83,14 @@ def VotingSolve(r,w):
 
 
 					print ("EOF?")
-
-
-		
-
-
-
-
-
-
+	else:
+		winner = list_elections[index_election].look_for_winner()
+		if not winner: tie = list_elections[index_election].look_for_tie()
+		if not winner and not tie:
+			list_elections[index_election].mark_the_losers()
+			list_elections[index_election].pass_votes()
+		print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+		print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
 """
 
 Election Logic
@@ -145,10 +144,7 @@ class Election(object):
 					for candidate in self.list_candidates[t + 1:]:
 						candidate.isInRunning = False
 					self.winner = [self.list_candidates[t].name]
-		
-		print ("Ballot length in election:", len(self.list_ballots))
 
-		print ("Length of Candidate List:", len(self.list_candidates))
 		print ('is there a winner?', self.hasWinner)
 		print ("winner:",self.winner)
 		return self.hasWinner
@@ -163,8 +159,8 @@ class Election(object):
 				if candidate.isInRunning:
 					candidate.isWinner = True
 				self.winner = [cand.name for cand in self.list_candidates if cand.isInRunning]
-
 			print ("There's a tie.")
+			print(self.winner)
 		return theres_a_tie
 
 	def mark_the_losers (self):
@@ -174,13 +170,13 @@ class Election(object):
 				cand.isInRunning = False
 
 	def pass_votes (self):
-		losers = [t for t in self.list_candidates if not self.list_candidates[t].isInRunning]
+		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
 			for ballot in non_candidate.ballots:
-				while not self.list_candidates[ballot.owner].isInRunning:
-					self.list_candidates[ballot.owner].take_ballot(ballot)
+				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
+					#self.list_candidates[ballot.votes[ballot.owner] - 1].take_ballot(ballot)
 					ballot.owner += 1
-					self.list_candidates[ballot.owner].give_ballot(ballot)
+					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 
 class Candidate (Election):
 	'''
