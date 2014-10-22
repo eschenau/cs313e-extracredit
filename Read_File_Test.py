@@ -28,13 +28,12 @@ def RunElection(election):
 		#delay = [t for t in range(10**7)]
 		#del delay
 		icount += 1
-	print ('winner:', election.winner)
 
 def VotingSolve(r,w):
 
 	readFile(r)
 	number_of_elections = int(list_lines[0])
-	print ("Election Count:", number_of_elections)
+	#print ("Election Count:", number_of_elections)
 	list_elections = [Election() for i in range (number_of_elections)] 
 	index_election = -1
 	list_lines.pop(0)
@@ -61,11 +60,9 @@ def VotingSolve(r,w):
 				#	for b in c.ballots:
 				#		print (b)
 
-
-
 				index_election+=1
 
-				print ("Election Number:", index_election)
+				#print ("Election Number:", index_election)
 				list_lines.pop(0)
 				number_candidates = int (list_lines.pop(0))
 				#print ("NUMBER CAND:", number_candidates)
@@ -104,6 +101,11 @@ def VotingSolve(r,w):
 					print ("EOF?")
 	else:
 		RunElection(list_elections[index_election])
+		for election in list_elections: 
+			for candidate in election.winner:
+				print (candidate)
+			print ()
+
 		#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
 		#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
 		#print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
