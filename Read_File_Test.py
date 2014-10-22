@@ -37,10 +37,6 @@ def VotingSolve(r,w):
 					list_elections[index_election].look_for_winner()
 					list_elections[index_election].look_for_tie()
 
-
-
-
-
 				index_election+=1
 
 				print ("Election Number:", index_election)
