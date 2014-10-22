@@ -14,7 +14,7 @@ def readFile (r):
 
 def RunElection(election):
 	icount = 0
-	while not (election.hasWinner or election.hasTie) and icount < 1:
+	while not (election.hasWinner or election.hasTie):
 		winner = election.look_for_winner()
 		if not winner:
 			tie = election.look_for_tie()
@@ -103,13 +103,13 @@ def VotingSolve(r,w):
 					print ("EOF?")
 	else:
 		RunElection(list_elections[index_election])
-		print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+		#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
 		#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
-		print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
-		for c in list_elections[index_election].list_candidates:
-			print (c.name)
-			for b in c.ballots:
-				print (b)
+		#print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
+		#for c in list_elections[index_election].list_candidates:
+			#print (c.name)
+			#for b in c.ballots:
+				#print (b)
 """
 
 Election Logic
@@ -164,7 +164,7 @@ class Election(object):
 						candidate.isInRunning = False
 					self.winner = [self.list_candidates[t].name]
 
-		print ('is there a winner?', self.hasWinner)
+		#print ('is there a winner?', self.hasWinner)
 		print ("winner:",self.winner)
 		return self.hasWinner
 	
@@ -178,13 +178,13 @@ class Election(object):
 				if candidate.isInRunning:
 					candidate.isWinner = True
 				self.winner = [cand.name for cand in self.list_candidates if cand.isInRunning]
-			print ("There's a tie.")
-			print(self.winner)
+			#print ("There's a tie.")
+			#print(self.winner)
 		self.hasTie = theres_a_tie
 		return theres_a_tie
 
 	def mark_the_losers (self):
-		loss_threshold = min(t.count_ballots() for t in self.list_candidates)
+		loss_threshold = min(t.count_ballots() for t in self.list_candidates if t.isInRunning)
 		for cand in self.list_candidates:
 			if cand.count_ballots() <= loss_threshold:
 				cand.isInRunning = False
@@ -192,8 +192,11 @@ class Election(object):
 	def pass_votes (self):
 		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
+			#print (non_candidate.name)
 			for ballot in non_candidate.ballots:
-				self.list_candidates[ballot.votes[ballot.owner] - 1].take_ballot(ballot)
+				#print(str(ballot) + ' : ' + str(ballot.votes) + ' # ' + str(ballot.owner))
+				assert ballot in non_candidate.ballots
+				non_candidate.take_ballot(ballot)
 				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
 					ballot.owner += 1
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
@@ -211,7 +214,7 @@ class Candidate (Election):
 		self.ballots.append(ballot)
 
 	def take_ballot (self, ballot):
-		self.ballots.remove(self.ballots.index(ballot))
+		self.ballots.remove(ballot)#self.ballots.index(ballot))
 
 	def count_ballots (self):
 		return len(self.ballots)
