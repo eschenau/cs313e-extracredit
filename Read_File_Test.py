@@ -5,14 +5,29 @@
 list_lines = []
 
 
+#-------------------------------
+#Reading File
+#-------------------------------
 def readFile (r):
+	"""
+	r is file input
+	processes file
+	"""
 	for lines in r: 
 		lines = lines.strip() 
 		list_lines.append(lines)
 	return list_lines
 #-------------------------------
-
+#Running the Election
+#-------------------------------
 def RunElection(election):
+	"""
+	election Logic
+	running each election object through the preferential voting Logic
+	candidate with > 50 percent of votes = winner
+	all way tie --- exit algorithm and print tied candidates
+
+	"""
 	icount = 0
 	while not (election.hasWinner or election.hasTie):
 		winner = election.look_for_winner()
@@ -28,9 +43,15 @@ def RunElection(election):
 		#delay = [t for t in range(10**7)]
 		#del delay
 		icount += 1
-
+#-------------------------------
+#Initializing Objects, Assigning Ballots
+#-------------------------------
 def VotingSolve(r,w):
-
+	"""
+	r is reader 
+	w is writer
+	creating objects and sorting objects for each election object
+	"""
 	readFile(r)
 	number_of_elections = int(list_lines[0])
 	#print ("Election Count:", number_of_elections)
@@ -47,10 +68,7 @@ def VotingSolve(r,w):
 			if loi == "":# and list_lines: 
 				
 				if index_election > -1: 
-					#PROCESS ALL THIS SHIT HERE
-					#Give ballots to initial owners
-					#for t in list_elections[index_election].list_ballots:
-					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
+					
 					RunElection(list_elections[index_election])
 				#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
 				#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
@@ -113,26 +131,13 @@ def VotingSolve(r,w):
 			#print (c.name)
 			#for b in c.ballots:
 				#print (b)
-"""
 
-Election Logic
-
-Giving to first owner	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-
-1. Give ballots to first owner
-2. Check for winner
-3. Check for tie_check
-4. Mark losers
-5. Pass votes of losers to the preferences
-6. Repeat Steps 2-5
-
-
-
-
-"""
 
 				
 class Election(object): 
+	"""
+	
+	"""
 
 	def __init__(self):
 		self.list_candidates = []
@@ -206,6 +211,7 @@ class Election(object):
 
 class Candidate (Election):
 	'''
+
 	'''
 	def __init__ (self, name):
 		self.name = name
