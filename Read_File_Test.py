@@ -21,13 +21,14 @@ def RunElection(election):
 		if not (winner or tie):
 			election.mark_the_losers()
 			election.pass_votes()
-		for ca in election.list_candidates:
-			print(ca.name + ' is winner? ' + str(ca.isWinner) + '. is loser? ' + str(ca.isInRunning == False))
-			for ba in ca.ballots:
-				print(str(ba) + '. owner ' + str(ba.votes[ba.owner] - 1))
-		delay = [t for t in range(10**7)]
-		del delay
+		#for ca in election.list_candidates:
+		#	print(ca.name + ' is winner? ' + str(ca.isWinner) + '. is loser? ' + str(ca.isInRunning == False))
+		#	for ba in ca.ballots:
+		#		print(str(ba) + '. owner ' + str(ba.votes[ba.owner] - 1))
+		#delay = [t for t in range(10**7)]
+		#del delay
 		icount += 1
+	print ('winner:', election.winner)
 
 def VotingSolve(r,w):
 
@@ -52,9 +53,9 @@ def VotingSolve(r,w):
 					#for t in list_elections[index_election].list_ballots:
 					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
 					RunElection(list_elections[index_election])
-				print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
+				#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
 				#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
-				print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
+				#print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
 				#for c in list_elections[index_election].list_candidates:
 				#	print (c.name)
 				#	for b in c.ballots:
@@ -165,7 +166,7 @@ class Election(object):
 					self.winner = [self.list_candidates[t].name]
 
 		#print ('is there a winner?', self.hasWinner)
-		print ("winner:",self.winner)
+		#print ("winner:",self.winner)
 		return self.hasWinner
 	
 	def look_for_tie (self):
