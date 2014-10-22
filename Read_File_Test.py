@@ -68,15 +68,18 @@ def VotingSolve(r,w):
 
 		
 				except IndexError: 
-								#----Troubleshooting loop------------------------------
-
+					winner = list_elections[index_election - 1].look_for_winner()
+					if not winner: tie = list_elections[index_election - 1].look_for_tie()
+					if not winner and not tie:
+						list_elections[index_election - 1].mark_the_losers()
+						list_elections[index_election - 1].pass_votes()
+					#----Troubleshooting loop------------------------------
 				
-					for candidate in list_elections[index_election].list_candidates:
+					#for candidate in list_elections[index_election].list_candidates:
 						#print ("Name:", candidate.name, end = " ")
 						#print (candidate.count_ballots())	
-						pass
 
-				#------------------------------------------------------
+					#------------------------------------------------------
 
 
 					print ("EOF?")
@@ -126,18 +129,22 @@ class Election(object):
 		return self.list_candidates
 	
 	def look_for_winner (self):
-		for t in range(len(self.list_candidates)):
-			if not self.list_candidates[t].isInRunning:
-				continue
-			assert self.list_candidates
-			if self.list_candidates[t].count_ballots() > .5 * len(self.list_ballots):
-				self.hasWinner = True
-				self.list_candidates[t].isWinner = True 
-				for candidate in self.list_candidates[:t]:
-					candidate.isInRunning = False
-				for candidate in self.list_candidates[t + 1:]:
-					candidate.isInRunning = False
-				self.winner = [self.list_candidates[t].name]
+		if len(self.list_candidates) == 1:
+			self.hasWinner = True
+			self.list_candidates[0].isWinner = True
+		else:
+			for t in range(len(self.list_candidates)):
+				if not self.list_candidates[t].isInRunning:
+					continue
+				assert self.list_candidates
+				if self.list_candidates[t].count_ballots() > .5 * len(self.list_ballots):
+					self.hasWinner = True
+					self.list_candidates[t].isWinner = True 
+					for candidate in self.list_candidates[:t]:
+						candidate.isInRunning = False
+					for candidate in self.list_candidates[t + 1:]:
+						candidate.isInRunning = False
+					self.winner = [self.list_candidates[t].name]
 		
 		print ("Ballot length in election:", len(self.list_ballots))
 
