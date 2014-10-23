@@ -194,6 +194,7 @@ def Voting_Solve(aReader,aWriter):
 	extracts election information
 	controls program
 	'''
+
 	line = Voting_Read_File(aReader)
 	reached_EOF = False
 	number_of_elections = None
