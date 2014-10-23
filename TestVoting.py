@@ -67,20 +67,69 @@ class TestVoting (TestCase) :
 	# --------------
 	
 	def test_Election_init_1 (self):
-		pass
+		e = Election()
+		assert not e.list_candidates
+		assert not e.list_ballots
+		assert not e.hasWinner
+		assert not e.hasTie
+		assert not e.winner
 	
 	def test_Election_add_candidate_1 (self):
-		pass
+		e = Election()
+		c = Candidate('CL4P-TP')
+		e.add_candidate(c)
+		assert e.list_candidates
 
 	def test_Election_add_ballot_1 (self):
-		pass
+		e = Election()
+		b = Ballot ([1, 2])
+		e.add_ballot(b)
+		assert e.list_ballots
 
-	def test_Election_look_for_winner_1 (self):
-		pass
+	def test_Election_look_for_winner_1 (self): 
+		e = Election()
+		c = Candidate('CL4P-TP')
+		e.add_candidate(c)
+		b = Ballot ([1, 2])
+		e.add_ballot(b)
+		assert e.look_for_winner
 	
-	def test_Election_look_for_tie_1 (self):
-		pass
-	
+	def test_Election_look_for_winner_2 (self):
+		e = Election()
+		c1 = Candidate('CL4P-TP')
+		c2 = Candidate('Hyperion')
+		e.add_candidate(c1)
+		e.add_candidate(c2)
+		b1 = Ballot ([1, 2])
+		b2 = Ballot ([2, 1])
+		e.add_ballot(b1)
+		e.add_ballot(b2)
+		assert not e.look_for_winner
+
+	def test_Election_look_for_tie_1 (self): 
+		e = Election()
+		c1 = Candidate('CL4P-TP')
+		c2 = Candidate('Hyperion')
+		e.add_candidate(c1)
+		e.add_candidate(c2)
+		b1 = Ballot ([1, 2])
+		b2 = Ballot ([2, 1])
+		e.add_ballot(b1)
+		e.add_ballot(b2)
+		assert e.look_for_tie
+
+	def test_Election_look_for_tie_2 (self): 
+		e = Election()
+		c1 = Candidate('CL4P-TP')
+		c2 = Candidate('Hyperion')
+		e.add_candidate(c1)
+		e.add_candidate(c2)
+		b1 = Ballot ([1, 2])
+		b2 = Ballot ([1, 2])
+		e.add_ballot(b1)
+		e.add_ballot(b2)
+		assert not e.look_for_tie
+
 	def test_Election_mark_the_losers_1 (self):
 		pass
 	
