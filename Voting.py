@@ -1,7 +1,9 @@
 #!/usr/bin/env/python3
 #Esther Schenau, Cameron Miller
-#-----Collection of Lists-------
 
+# --------------
+# Election class
+# --------------
 class Election(object): 
 	def __init__(self):
 		self.list_candidates = []
@@ -61,6 +63,9 @@ class Election(object):
 					ballot.owner += 1
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 
+# ---------------
+# Candidate class
+# ---------------
 class Candidate (object):
 	def __init__ (self, name):
 		self.name = name
@@ -74,6 +79,9 @@ class Candidate (object):
 	def count_ballots (self):
 		return len(self.ballots)
 
+# ------------
+# Ballot class
+# ------------
 class Ballot (object):
 	def __init__ (self, preferences):
 		self.votes = tuple(preferences)
@@ -81,10 +89,16 @@ class Ballot (object):
 	def show_ballot (self): 
 		print (self.votes)
 
+# -------------------------
+# Voting_Read_File function
+# -------------------------
 def Voting_Read_File (reader):
 	for line in reader:
 		yield line
 
+# ----------------------------
+# Voting_Run_Election function
+# ----------------------------
 def Voting_Run_Election(election):
 	while not (election.hasWinner or election.hasTie):
 		winner = election.look_for_winner()
@@ -94,6 +108,9 @@ def Voting_Run_Election(election):
 			election.mark_the_losers()
 			election.pass_votes()
 
+# ---------------------
+# Voting_Solve function
+# ---------------------
 def Voting_Solve(aReader,aWriter):
 	line = Voting_Read_File(aReader)
 	reached_EOF = False
