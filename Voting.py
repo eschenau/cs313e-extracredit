@@ -13,6 +13,7 @@ class Election(object):
 		self.list_candidates.append(candidate)
 	def add_ballot(self, ballot):
 		self.list_ballots.append(ballot)
+		self.list_candidates[ballot.votes[0] - 1].give_ballot(ballot)
 	def return_Candidates(self): 
 		return self.list_candidates
 	def look_for_winner (self):
@@ -118,7 +119,6 @@ def Voting_Solve(aReader,aWriter):
 			rerender_line = [int(t) for t in render_line.split()]
 			ballotize = Ballot(rerender_line)
 			list_elections[index_election].add_ballot(ballotize)
-			list_elections[index_election].list_candidates[ballotize.votes[0] - 1].give_ballot(ballotize)
 		else:
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:
