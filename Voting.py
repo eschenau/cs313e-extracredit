@@ -2,168 +2,6 @@
 #Esther Schenau, Cameron Miller
 #-----Collection of Lists-------
 
-list_lines = []
-
-
-def read_file (reader):
-	for line in reader:
-		yield line
-	'''
-	for lines in r: 
-		lines = lines.strip() 
-		list_lines.append(lines)
-	return list_lines
-	'''
-
-#def interpret_line (line):
-#	if 
-	
-#-------------------------------
-
-def RunElection(election):
-	while not (election.hasWinner or election.hasTie):
-		winner = election.look_for_winner()
-		if not winner:
-			tie = election.look_for_tie()
-		if not (winner or tie):
-			election.mark_the_losers()
-			election.pass_votes()
-
-def VotingSolve(aReader,aWriter):
-	line = read_file(aReader)
-	reached_EOF = False
-	number_of_elections = None
-	index_election = -1
-	while not reached_EOF:
-		try:
-			render_line = next(line).strip()
-		except StopIteration:
-			reached_EOF = True
-			continue
-		if render_line == '':
-			if -1 < index_election < number_of_elections:
-				RunElection(list_elections[index_election])
-			index_election += 1
-		elif render_line.isdigit():
-			if not number_of_elections:
-				number_of_elections = int(render_line)
-				list_elections = [Election() for i in range(number_of_elections)]
-			else:
-				list_elections[index_election].number_of_candidates = int(render_line)
-				#build list of unnamed candidates and name them later?
-		elif render_line[-1].isdigit():
-			rerender_line = [int(t) for t in render_line.split()]
-			ballotize = Ballot(rerender_line)
-			list_elections[index_election].add_ballot(ballotize)
-			list_elections[index_election].list_candidates[ballotize.votes[0] - 1].give_ballot(ballotize)
-		else:# render_line[-1].isaplha():
-			list_elections[index_election].add_candidate(Candidate(render_line))
-	else:
-		RunElection(list_elections[index_election])
-	for election in list_elections: 
-		for candidate in election.winner:
-			print (candidate)
-		print () 
-	'''
-	number_of_elections = int(list_lines[0])
-	#print ("Election Count:", number_of_elections)
-	list_elections = [Election() for i in range (number_of_elections)] 
-	index_election = -1
-	list_lines.pop(0)
-
-	#Blank line is indicator of next election 
-	while len(list_lines) > 0:
-		#LOI = line of interest
-		for i in list_lines:
-			loi = list_lines[0]
-			#print (loi)
-			if loi == "":# and list_lines: 
-				
-				if index_election > -1: 
-					#PROCESS ALL THIS SHIT HERE
-					#Give ballots to initial owners
-					#for t in list_elections[index_election].list_ballots:
-					#	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-					RunElection(list_elections[index_election])
-				#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
-				#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
-				#print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
-				#for c in list_elections[index_election].list_candidates:
-				#	print (c.name)
-				#	for b in c.ballots:
-				#		print (b)
-
-				index_election+=1
-
-				#print ("Election Number:", index_election)
-				list_lines.pop(0)
-				number_candidates = int (list_lines.pop(0))
-				#print ("NUMBER CAND:", number_candidates)
-
-				for i in range (0, number_candidates):
-					list_elections[index_election].add_candidate(Candidate(list_lines.pop(0)))
-
-				try: 
-					while list_lines and list_lines[0] != "": 
-
-						temp = list_lines[0].strip()
-						temp = list_lines[0].split()
-						temp = [int (t) for t in temp]
-						t = Ballot(temp) 
-						list_elections[index_election].add_ballot(t)
-						list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-
-						list_lines.pop(0)
-
-		
-				except IndexError: 
-					#winner = list_elections[index_election - 1].look_for_winner()
-					#if not winner: tie = list_elections[index_election - 1].look_for_tie()
-					#if not winner and not tie:
-					#	list_elections[index_election - 1].mark_the_losers()
-					#	list_elections[index_election - 1].pass_votes()
-					#----Troubleshooting loop------------------------------
-				
-					#for candidate in list_elections[index_election].list_candidates:
-						#print ("Name:", candidate.name, end = " ")
-						#print (candidate.count_ballots())	
-
-					#------------------------------------------------------
-
-
-					print ("EOF?")
-	else:
-		RunElection(list_elections[index_election])
-		for election in list_elections: 
-			for candidate in election.winner:
-				print (candidate)
-			print ()
-
-		#print ("Ballot length in election:", len(list_elections[index_election].list_ballots))
-		#for b in list_elections[index_election].list_ballots: print (int(b.votes[b.owner] - 1))
-		#print ("Length of Candidate List:", len(list_elections[index_election].list_candidates))
-		#for c in list_elections[index_election].list_candidates:
-			#print (c.name)
-			#for b in c.ballots:
-				#print (b)
-"""'''
-
-'''
-Election Logic
-
-Giving to first owner	list_elections[index_election].list_candidates[t.votes[t.owner]-1].give_ballot(t)
-
-1. Give ballots to first owner
-2. Check for winner
-3. Check for tie_check
-4. Mark losers
-5. Pass votes of losers to the preferences
-6. Repeat Steps 2-5
-'''
-
-
-
-				
 class Election(object): 
 	def __init__(self):
 		self.list_candidates = []
@@ -215,9 +53,7 @@ class Election(object):
 	def pass_votes (self):
 		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
-			#print (non_candidate.name)
 			for ballot in non_candidate.ballots:
-				#print(str(ballot) + ' : ' + str(ballot.votes) + ' # ' + str(ballot.owner))
 				assert ballot in non_candidate.ballots
 				non_candidate.take_ballot(ballot)
 				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
@@ -227,13 +63,13 @@ class Election(object):
 class Candidate ():
 	def __init__ (self, name):
 		self.name = name
-		self.ballots = []#set()
+		self.ballots = []
 		self.isInRunning = True
 		self.isWinner = False
 	def give_ballot (self, ballot):
 		self.ballots.append(ballot)
 	def take_ballot (self, ballot):
-		self.ballots.remove(ballot)#self.ballots.index(ballot))
+		self.ballots.remove(ballot)
 	def count_ballots (self):
 		return len(self.ballots)
 
@@ -244,5 +80,50 @@ class Ballot (Candidate):
 	def show_ballot (self): 
 		print (self.votes)
 
+def read_file (reader):
+	for line in reader:
+		yield line
 
+def RunElection(election):
+	while not (election.hasWinner or election.hasTie):
+		winner = election.look_for_winner()
+		if not winner:
+			tie = election.look_for_tie()
+		if not (winner or tie):
+			election.mark_the_losers()
+			election.pass_votes()
 
+def VotingSolve(aReader,aWriter):
+	line = read_file(aReader)
+	reached_EOF = False
+	number_of_elections = None
+	index_election = -1
+	while not reached_EOF:
+		try:
+			render_line = next(line).strip()
+		except StopIteration:
+			reached_EOF = True
+			continue
+		if render_line == '':
+			if -1 < index_election < number_of_elections:
+				RunElection(list_elections[index_election])
+			index_election += 1
+		elif render_line.isdigit():
+			if not number_of_elections:
+				number_of_elections = int(render_line)
+				list_elections = [Election() for i in range(number_of_elections)]
+			else:
+				list_elections[index_election].number_of_candidates = int(render_line)
+		elif render_line[-1].isdigit():
+			rerender_line = [int(t) for t in render_line.split()]
+			ballotize = Ballot(rerender_line)
+			list_elections[index_election].add_ballot(ballotize)
+			list_elections[index_election].list_candidates[ballotize.votes[0] - 1].give_ballot(ballotize)
+		else:
+			list_elections[index_election].add_candidate(Candidate(render_line))
+	else:
+		RunElection(list_elections[index_election])
+	for election in list_elections: 
+		for candidate in election.winner:
+			print (candidate)
+		print () 
