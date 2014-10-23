@@ -35,16 +35,32 @@ class TestVoting (TestCase) :
 	# ---------------
 
 	def test_Candidate_init_1 (self): 
-		pass
+		c = Candidate('CL4P-TP')
+		assert c.name == 'CL4P-TP'
+		assert not c.ballots
+		assert c.isInRunning
+		assert not c.isWinner
 	
 	def test_Candidate_give_ballot_1 (self):
-		pass
+		c = Candidate('CL4P-TP')
+		b = Ballot ([1, 2, 3])
+		c.give_ballot(b)
+		assert c.ballots
 	
 	def test_Candidate_take_ballot_1 (self):
-		pass
+		c = Candidate('CL4P-TP')
+		b = Ballot ([1, 2, 3])
+		c.give_ballot(b)
+		c.take_ballot(b)
+		assert not c.ballots
 
 	def test_Candidate_count_ballots_ 1 (self):
-		pass
+		c = Candidate('CL4P-TP')
+		b = Ballot ([1, 2, 3])
+		c.give_ballot(b)
+		c.give_ballot(b)
+		c.give_ballot(b)
+		assert c.count_ballots() == 3
 
 	# --------------
 	# Election Class
