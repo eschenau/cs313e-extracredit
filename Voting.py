@@ -214,9 +214,11 @@ def Voting_Solve(aReader,aWriter):
 			else:
 				list_elections[index_election].number_of_candidates = int(render_line)
 		elif render_line[-1].isdigit():
-			rerender_line = [int(t) for t in render_line.split()]
-			ballotize = Ballot(rerender_line)
-			list_elections[index_election].add_ballot(ballotize)
+			try:
+				rerender_line = [int(t) for t in render_line.split()]
+				ballotize = Ballot(rerender_line)
+				list_elections[index_election].add_ballot(ballotize)
+			except ValueError: list_elections[index_election].add_candidate(Candidate(render_line))
 		else:
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:

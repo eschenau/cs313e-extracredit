@@ -295,7 +295,10 @@ main()
 
 '''
 16 functions tested
-30 total tests
+31 total tests
 need 48 tests total
-need 18 more tests
+need 17 more tests
+
+coverage3 run --branch TestVoting.py
+coverage3 report -m
 '''
