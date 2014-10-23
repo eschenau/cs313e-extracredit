@@ -1,8 +1,11 @@
-no such option: --branch
-Use 'coverage help' for help.
-Name    Stmts   Miss  Cover   Missing
--------------------------------------
-no such option: --branch
-Use 'coverage help' for help.
-Name    Stmts   Miss  Cover   Missing
--------------------------------------
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.002s
+
+OK
+Name         Stmts   Miss Branch BrMiss  Cover   Missing
+--------------------------------------------------------
+TestVoting     138      0     12      0   100%   
+Voting         114     37     66     30    63%   37-38, 50, 63-66, 168-171, 182-210
+--------------------------------------------------------
+TOTAL          252     37     78     30    80%   
