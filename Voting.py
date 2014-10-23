@@ -5,9 +5,12 @@
 # Election class
 # --------------
 class Election(object): 
+	'''
+	object to keep track of each unique election
+	'''
 	def __init__(self):
 		'''
-		construct and empty election object
+		construct an empty election object
 		'''
 		self.list_candidates = []
 		self.list_ballots = []
@@ -88,27 +91,47 @@ class Election(object):
 # Candidate class
 # ---------------
 class Candidate (object):
+	'''
+	object for candidates
+	'''
 	def __init__ (self, name):
+		'''
+		construct a candidate object with a given name and no ballots yet
+		'''
 		self.name = name
 		self.ballots = []
 		self.isInRunning = True
 		self.isWinner = False
 	def give_ballot (self, ballot):
+		'''
+		adds a ballot to candidate's list of ballots
+		'''
 		self.ballots.append(ballot)
 	def take_ballot (self, ballot):
+		'''
+		removes a ballot from a candidate's list of ballots
+		'''
 		self.ballots.remove(ballot)
 	def count_ballots (self):
+		'''
+		returns the candidate's total number of ballots
+		'''
 		return len(self.ballots)
 
 # ------------
 # Ballot class
 # ------------
 class Ballot (object):
+	'''
+	object for ballots
+	'''
 	def __init__ (self, preferences):
+		'''
+		construct a ballot object out of a group of voting preferences
+		sets an index to the first preference
+		'''
 		self.votes = tuple(preferences)
 		self.owner = 0
-	def show_ballot (self): 
-		print (self.votes)
 
 # -------------------------
 # Voting_Read_File function
