@@ -60,7 +60,7 @@ class Election(object):
 					ballot.owner += 1
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 
-class Candidate ():
+class Candidate (object):
 	def __init__ (self, name):
 		self.name = name
 		self.ballots = []
@@ -73,7 +73,7 @@ class Candidate ():
 	def count_ballots (self):
 		return len(self.ballots)
 
-class Ballot (Candidate):
+class Ballot (object):
 	def __init__ (self, preferences):
 		self.votes = tuple(preferences)
 		self.owner = 0
