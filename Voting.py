@@ -167,7 +167,9 @@ def Voting_Write(writer, elections):
 	'''
 	for election in elections: 
 		for candidate in election.winner:
-			print (candidate)
+			writer.write(candidate)
+			print ()
+
 		print () 
 
 # ---------------------
