@@ -276,6 +276,10 @@ class TestVoting (TestCase) :
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertEqual(w.getvalue(),'Athena\nWilhelm\nNisha\nClaptrap\n\n')
+	
+	def test_Voting_Solve_4 (self):
+		r = StringIO('')
+		w = StringIO()
 
 # ----
 # main
