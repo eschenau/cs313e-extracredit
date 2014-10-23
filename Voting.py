@@ -36,6 +36,7 @@ class Election(object):
 		if len(self.list_candidates) == 1:
 			self.hasWinner = True
 			self.list_candidates[0].isWinner = True
+			self.winner = [self.list_candidates[0].name]
 		else:
 			for t in range(len(self.list_candidates)):
 				if not self.list_candidates[t].isInRunning:
@@ -167,8 +168,10 @@ def Voting_Write(writer, elections):
 	'''
 	for election in elections: 
 		for candidate in election.winner:
-			print (candidate)
-		print () 
+			writer.write(candidate)
+			writer.write('\n')
+		else:
+			writer.write('\n')
 
 # ---------------------
 # Voting_Solve function

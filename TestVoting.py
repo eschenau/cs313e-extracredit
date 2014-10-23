@@ -90,7 +90,7 @@ class TestVoting (TestCase) :
 		e.add_candidate(c)
 		b = Ballot ([1, 2])
 		e.add_ballot(b)
-		assert e.look_for_winner
+		assert e.look_for_winner()
 	
 	def test_Election_look_for_winner_2 (self):
 		e = Election()
@@ -103,6 +103,14 @@ class TestVoting (TestCase) :
 		e.add_ballot(b1)
 		e.add_ballot(b2)
 		assert not e.look_for_winner()
+	
+	def test_Election_look_for_winner_3 (self):
+		e = Election()
+		e.add_candidate(Candidate('CL4P-TP'))
+		e.add_candidate(Candidate('Handsome Jack'))
+		for t in range(3):
+			e.add_ballot(Ballot([1]))
+		assert e.look_for_winner()
 
 	def test_Election_look_for_tie_1 (self): 
 		e = Election()
@@ -114,7 +122,7 @@ class TestVoting (TestCase) :
 		b2 = Ballot ([2, 1])
 		e.add_ballot(b1)
 		e.add_ballot(b2)
-		assert e.look_for_tie
+		assert e.look_for_tie()
 
 	def test_Election_look_for_tie_2 (self): 
 		e = Election()
@@ -182,14 +190,26 @@ class TestVoting (TestCase) :
 	# ---------------------
 	
 	def test_Voting_Write_1 (self):
-		pass
+		r = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'Lilith\n\n')
 	
 	# --------------------
 	# Voting_Solve function
 	# --------------------
 	
 	def test_Voting_Solve_1 (self):
-		pass
+		r = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'Lilith\n\n')
+	
+	def test_Voting_Solve_2 (self):
+		r = StringIO('2\n\n1\nCL4P-TP\n1\n1\n1\n\n2\nGaige\nKRIEG!\n2 1\n1 2\n2 1\n1 2\n2 1\n')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'CL4P-TP\n\nKRIEG!\n\n')
 
 # ----
 # main
