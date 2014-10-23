@@ -17,17 +17,20 @@ class Election(object):
 		self.hasWinner = False
 		self.hasTie = False
 		self.winner = []
+
 	def add_candidate(self, candidate):
 		'''
 		add a candidate to the election's list of candidates
 		'''
 		self.list_candidates.append(candidate)
+
 	def add_ballot(self, ballot):
 		'''
 		add a ballot to the election's list of ballots
 		'''
 		self.list_ballots.append(ballot)
 		self.list_candidates[ballot.votes[0] - 1].give_ballot(ballot)
+
 	def look_for_winner (self):
 		'''
 		looks through the election's list of in running candidates and determines if there is a winner
@@ -51,6 +54,7 @@ class Election(object):
 						candidate.isInRunning = False
 					self.winner = [self.list_candidates[t].name]
 		return self.hasWinner
+
 	def look_for_tie (self):
 		'''
 		looks through the elections list of in running candidates and determines if there is a tie
@@ -67,6 +71,7 @@ class Election(object):
 				self.winner = [cand.name for cand in self.list_candidates if cand.isInRunning]
 		self.hasTie = theres_a_tie
 		return theres_a_tie
+
 	def mark_the_losers (self):
 		'''
 		determines which candidates are no longer in the running
@@ -75,6 +80,7 @@ class Election(object):
 		for cand in self.list_candidates:
 			if cand.count_ballots() <= loss_threshold:
 				cand.isInRunning = False
+
 	def pass_votes (self):
 		'''
 		takes ballots away from losers and gives them to the ballot's next choice of in running candidate
@@ -103,16 +109,19 @@ class Candidate (object):
 		self.ballots = []
 		self.isInRunning = True
 		self.isWinner = False
+
 	def give_ballot (self, ballot):
 		'''
 		adds a ballot to candidate's list of ballots
 		'''
 		self.ballots.append(ballot)
+
 	def take_ballot (self, ballot):
 		'''
 		removes a ballot from a candidate's list of ballots
 		'''
 		self.ballots.remove(ballot)
+
 	def count_ballots (self):
 		'''
 		returns the candidate's total number of ballots
