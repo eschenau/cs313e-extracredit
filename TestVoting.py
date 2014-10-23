@@ -181,8 +181,26 @@ class TestVoting (TestCase) :
 	# Voting_Write function
 	# ---------------------
 	
-	def test_Voting_Write_1 (self):
-		pass
+	def test_Voting_Write_3(self):		
+		
+		g = Election()
+		c1 = Candidate("AllCodeErased")
+		c2 = ("MiffedPerson")
+		c1.isWinner=True
+		g.add_candidate(c1)
+		g.add_candidate(c2)
+
+		h = Election()
+		c3 = Candidate ("Mars")
+		c4 = Candidate ("Venus")
+		c4.isWinner=True
+
+		w = StringIO()
+		Voting_Write(w, [g,h])
+		self.assertEqual (w,"AllCodeErased\n Venus\n")
+
+
+
 	
 	# --------------------
 	# Voting_Solve function
