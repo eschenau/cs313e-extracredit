@@ -137,6 +137,9 @@ class Ballot (object):
 # Voting_Read_File function
 # -------------------------
 def Voting_Read_File (reader):
+	'''
+	pulls lines from reader to give back to program
+	'''
 	for line in reader:
 		yield line
 
@@ -144,6 +147,9 @@ def Voting_Read_File (reader):
 # Voting_Run_Election function
 # ----------------------------
 def Voting_Run_Election(election):
+	'''
+	processes election data until a winner or tie is detected
+	'''
 	while not (election.hasWinner or election.hasTie):
 		winner = election.look_for_winner()
 		if not winner:
@@ -156,6 +162,9 @@ def Voting_Run_Election(election):
 # Voting_Write function
 # ---------------------
 def Voting_Write(writer, elections):
+	'''
+	sends output from a list of elections to a writer
+	'''
 	for election in elections: 
 		for candidate in election.winner:
 			print (candidate)
@@ -165,6 +174,11 @@ def Voting_Write(writer, elections):
 # Voting_Solve function
 # ---------------------
 def Voting_Solve(aReader,aWriter):
+	'''
+	takes a reader and a writer
+	extracts election information
+	controls program
+	'''
 	line = Voting_Read_File(aReader)
 	reached_EOF = False
 	number_of_elections = None
