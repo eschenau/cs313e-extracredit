@@ -136,16 +136,16 @@ class TestVoting (TestCase) :
 	def test_Election_pass_votes_1 (self):
 		pass
 	
-	# ------------------
+	# -------------------------
 	# Voting_Read_File function
-	# ------------------
+	# -------------------------
 	
 	def test_Voting_Read_File_1 (self):
 		pass
 	
-	# --------------------
+	# ----------------------------
 	# Voting_Run_Election function
-	# --------------------
+	# ----------------------------
 	
 	def test_Voting_Run_Election_1 (self):
 		pass
