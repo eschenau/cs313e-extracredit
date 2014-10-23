@@ -153,6 +153,15 @@ def Voting_Run_Election(election):
 			election.pass_votes()
 
 # ---------------------
+# Voting_Write function
+# ---------------------
+def Voting_Write(writer, elections):
+	for election in elections: 
+		for candidate in election.winner:
+			print (candidate)
+		print () 
+
+# ---------------------
 # Voting_Solve function
 # ---------------------
 def Voting_Solve(aReader,aWriter):
@@ -184,7 +193,4 @@ def Voting_Solve(aReader,aWriter):
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:
 		Voting_Run_Election(list_elections[index_election])
-	for election in list_elections: 
-		for candidate in election.winner:
-			print (candidate)
-		print () 
+	Voting_Write(list_elections)
