@@ -168,9 +168,11 @@ def Voting_Write(writer, elections):
 	for election in elections: 
 		for candidate in election.winner:
 			writer.write(candidate)
-			print ()
-
-		print () 
+			writer.write('\n')
+			#print () We don't want to print() anything
+		else:
+			writer.write('\n')
+		#print () All output must go to the writer, not stdout
 
 # ---------------------
 # Voting_Solve function
