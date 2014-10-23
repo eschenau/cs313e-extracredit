@@ -243,7 +243,17 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		Voting_Run_Election(e)
 		assert e.hasWinner
-		assert e.winner == ['Handsome Jack']
+		self.assertEqual(e.winner, ['Handsome Jack'])
+
+	def test_Voting_Run_Election_2 (self):
+		e = Election()
+		for c in ['Roland', 'Mordecai', 'Brick', 'Lilith']:
+			e.add_candidate(Candidate(c))
+		for b in []:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasTie
+		self.assertEqual(e.winner, ['Roland', 'Mordecai', 'Brick', 'Lilith'])
 	
 	# ---------------------
 	# Voting_Write function
@@ -276,10 +286,6 @@ class TestVoting (TestCase) :
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertEqual(w.getvalue(),'Athena\nWilhelm\nNisha\nClaptrap\n\n')
-	
-	def test_Voting_Solve_4 (self):
-		r = StringIO('')
-		w = StringIO()
 
 # ----
 # main
