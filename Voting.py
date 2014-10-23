@@ -193,4 +193,4 @@ def Voting_Solve(aReader,aWriter):
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:
 		Voting_Run_Election(list_elections[index_election])
-	Voting_Write(list_elections)
+	Voting_Write(aWriter, list_elections)
