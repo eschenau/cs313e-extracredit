@@ -181,27 +181,22 @@ class TestVoting (TestCase) :
 	# Voting_Write function
 	# ---------------------
 	
-	def test_Voting_Write_3(self):		
-		
+	def test_Voting_Write_1(self):		
+		w = StringIO()
 		g = Election()
 		c1 = Candidate("AllCodeErased")
-		c2 = ("MiffedPerson")
-		c1.isWinner=True
-		g.add_candidate(c1)
-		g.add_candidate(c2)
+		c1.winner = True
 
 		h = Election()
 		c3 = Candidate ("Mars")
-		c4 = Candidate ("Venus")
-		c4.isWinner=True
+		c3.winner = True
+		
+		test_elections = [g,h]
 
-		w = StringIO()
-		Voting_Write(w, [g,h])
-		self.assertEqual (w,"AllCodeErased\n Venus\n")
+		Voting_Write(w, test_elections)
+		self.assertEqual (w.getvalue(),"")
 
 
-
-	
 	# --------------------
 	# Voting_Solve function
 	# --------------------
