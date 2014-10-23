@@ -4,6 +4,6 @@
 
 import sys
 
-from Voting import VotingSolve
+from Voting import Voting_Solve
 
-VotingSolve(sys.stdin, sys.stdout)
+Voting_Solve(sys.stdin, sys.stdout)

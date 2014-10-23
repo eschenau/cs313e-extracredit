@@ -80,11 +80,11 @@ class Ballot (object):
 	def show_ballot (self): 
 		print (self.votes)
 
-def read_file (reader):
+def Voting_Read_File (reader):
 	for line in reader:
 		yield line
 
-def RunElection(election):
+def Voting_Run_Election(election):
 	while not (election.hasWinner or election.hasTie):
 		winner = election.look_for_winner()
 		if not winner:
@@ -93,8 +93,8 @@ def RunElection(election):
 			election.mark_the_losers()
 			election.pass_votes()
 
-def VotingSolve(aReader,aWriter):
-	line = read_file(aReader)
+def Voting_Solve(aReader,aWriter):
+	line = Voting_Read_File(aReader)
 	reached_EOF = False
 	number_of_elections = None
 	index_election = -1
@@ -106,7 +106,7 @@ def VotingSolve(aReader,aWriter):
 			continue
 		if render_line == '':
 			if -1 < index_election < number_of_elections:
-				RunElection(list_elections[index_election])
+				Voting_Run_Election(list_elections[index_election])
 			index_election += 1
 		elif render_line.isdigit():
 			if not number_of_elections:
@@ -122,7 +122,7 @@ def VotingSolve(aReader,aWriter):
 		else:
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:
-		RunElection(list_elections[index_election])
+		Voting_Run_Election(list_elections[index_election])
 	for election in list_elections: 
 		for candidate in election.winner:
 			print (candidate)
