@@ -270,22 +270,28 @@ class TestVoting (TestCase) :
 	# --------------------
 	
 	def test_Voting_Solve_1 (self):
-		r = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1')
+		r = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n')
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertEqual(w.getvalue(),'Lilith\n\n')
 	
 	def test_Voting_Solve_2 (self):
-		r = StringIO('2\n\n1\nCL4P-TP\n1\n1\n1\n\n2\nGaige\nKRIEG!\n2 1\n1 2\n2 1\n1 2\n2 1\n')
+		r = StringIO('1\n\n1\nCL4P-TP\n1\n1\n1\n')
 		w = StringIO()
 		Voting_Solve(r,w)
-		self.assertEqual(w.getvalue(),'CL4P-TP\n\nKRIEG!\n\n')
+		self.assertEqual(w.getvalue(),'CL4P-TP\n\n')
 	
 	def test_Voting_Solve_3 (self):
 		r = StringIO('1\n\n4\nAthena\nWilhelm\nNisha\nClaptrap\n')
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertEqual(w.getvalue(),'Athena\nWilhelm\nNisha\nClaptrap\n\n')
+	
+	def test_Voting_Solve_4 (self):
+		r = StringIO('2\n\n1\nCL4P-TP\n1\n1\n1\n\n2\nGaige\nKRIEG!\n2 1\n1 2\n2 1\n1 2\n2 1\n')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'CL4P-TP\n\nKRIEG!\n\n')
 
 # ----
 # main
