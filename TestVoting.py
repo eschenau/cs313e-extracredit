@@ -11,17 +11,15 @@
 from io import StringIO
 from unittest import main, TestCase
 
-from Read_File_Test import *
+from Voting import *
 
-# -----------
-# Testnetflix
-# -----------
-
+# ----------
+# TestVoting
+# ----------
 class TestVoting (TestCase) :
 	# ------------
 	# Ballot Class
 	# ------------
-
 	def test_Ballot_init_1 (self):
 		b = Ballot([1, 2, 3])
 		assert b.votes[b.owner] == 1
@@ -33,7 +31,6 @@ class TestVoting (TestCase) :
 	# ---------------
 	# Candidate Class
 	# ---------------
-
 	def test_Candidate_init_1 (self): 
 		c = Candidate('CL4P-TP')
 		assert c.name == 'CL4P-TP'
@@ -54,7 +51,7 @@ class TestVoting (TestCase) :
 		c.take_ballot(b)
 		assert not c.ballots
 
-	def test_Candidate_count_ballots_ 1 (self):
+	def test_Candidate_count_ballots_1 (self):
 		c = Candidate('CL4P-TP')
 		b = Ballot ([1, 2, 3])
 		c.give_ballot(b)
@@ -65,7 +62,6 @@ class TestVoting (TestCase) :
 	# --------------
 	# Election Class
 	# --------------
-	
 	def test_Election_init_1 (self):
 		e = Election()
 		assert not e.list_candidates
@@ -82,6 +78,8 @@ class TestVoting (TestCase) :
 
 	def test_Election_add_ballot_1 (self):
 		e = Election()
+		c = Candidate('CL4P-TP')
+		e.add_candidate(c)
 		b = Ballot ([1, 2])
 		e.add_ballot(b)
 		assert e.list_ballots
@@ -104,7 +102,7 @@ class TestVoting (TestCase) :
 		b2 = Ballot ([2, 1])
 		e.add_ballot(b1)
 		e.add_ballot(b2)
-		assert not e.look_for_winner
+		assert not e.look_for_winner()
 
 	def test_Election_look_for_tie_1 (self): 
 		e = Election()
@@ -128,27 +126,56 @@ class TestVoting (TestCase) :
 		b2 = Ballot ([1, 2])
 		e.add_ballot(b1)
 		e.add_ballot(b2)
-		assert not e.look_for_tie
+		assert not e.look_for_tie()
 
 	def test_Election_mark_the_losers_1 (self):
-		pass
+		e = Election()
+		for c in ['CL4P-TP', 'Hyperion', 'Handsome Jack']:
+			e.add_candidate(Candidate(c))
+		for b in [[1, 3, 2], [2, 3, 1], [2, 3, 1], [3, 1, 2], [3, 1, 2]]:
+			e.add_ballot(Ballot(b))
+		e.mark_the_losers()
+		assert not e.list_candidates[0].isInRunning
 	
 	def test_Election_pass_votes_1 (self):
-		pass
+		e = Election()
+		for c in ['CL4P-TP', 'Hyperion', 'Handsome Jack']:
+			e.add_candidate(Candidate(c))
+		for b in [[1, 3, 2], [2, 3, 1], [2, 3, 1], [3, 1, 2], [3, 1, 2]]:
+			e.add_ballot(Ballot(b))
+		e.mark_the_losers()
+		e.pass_votes()
+		assert e.list_candidates[0].count_ballots() == 0
+		assert e.list_candidates[1].count_ballots() == 2
+		assert e.list_candidates[2].count_ballots() == 3
 	
 	# -------------------------
 	# Voting_Read_File function
 	# -------------------------
-	
 	def test_Voting_Read_File_1 (self):
-		pass
+		f = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1')
+		l = Voting_Read_File(f)
+		n = next(l).strip()
+		assert n.isdigit()
+		n = next(l).strip()
+		assert not n
+		n = next(l).strip()
+		assert n.isdigit()
+		n = next(l).strip()
+		assert n.isalpha()
 	
 	# ----------------------------
 	# Voting_Run_Election function
 	# ----------------------------
-	
 	def test_Voting_Run_Election_1 (self):
-		pass
+		e = Election()
+		for c in ['CL4P-TP', 'Hyperion', 'Handsome Jack']:
+			e.add_candidate(Candidate(c))
+		for b in [[1, 3, 2], [2, 3, 1], [2, 3, 1], [3, 1, 2], [3, 1, 2]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasWinner
+		assert e.winner == ['Handsome Jack']
 	
 	# ---------------------
 	# Voting_Write function
