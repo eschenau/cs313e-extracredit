@@ -6,19 +6,30 @@
 # --------------
 class Election(object): 
 	def __init__(self):
+		'''
+		construct and empty election object
+		'''
 		self.list_candidates = []
 		self.list_ballots = []
 		self.hasWinner = False
 		self.hasTie = False
 		self.winner = []
 	def add_candidate(self, candidate):
+		'''
+		add a candidate to the election's list of candidates
+		'''
 		self.list_candidates.append(candidate)
 	def add_ballot(self, ballot):
+		'''
+		add a ballot to the election's list of ballots
+		'''
 		self.list_ballots.append(ballot)
 		self.list_candidates[ballot.votes[0] - 1].give_ballot(ballot)
-	def return_Candidates(self): 
-		return self.list_candidates
 	def look_for_winner (self):
+		'''
+		looks through the election's list of in running candidates and determines if there is a winner
+		returns true if there is a winner
+		'''
 		if len(self.list_candidates) == 1:
 			self.hasWinner = True
 			self.list_candidates[0].isWinner = True
@@ -37,6 +48,10 @@ class Election(object):
 					self.winner = [self.list_candidates[t].name]
 		return self.hasWinner
 	def look_for_tie (self):
+		'''
+		looks through the elections list of in running candidates and determines if there is a tie
+		returns true if there is a tie
+		'''
 		tie_check = [self.list_candidates[0].count_ballots() == candidate.count_ballots() for candidate in self.list_candidates[1:] if candidate.isInRunning]
 		theres_a_tie = True
 		for check in tie_check:
@@ -49,11 +64,17 @@ class Election(object):
 		self.hasTie = theres_a_tie
 		return theres_a_tie
 	def mark_the_losers (self):
+		'''
+		determines which candidates are no longer in the running
+		'''
 		loss_threshold = min(t.count_ballots() for t in self.list_candidates if t.isInRunning)
 		for cand in self.list_candidates:
 			if cand.count_ballots() <= loss_threshold:
 				cand.isInRunning = False
 	def pass_votes (self):
+		'''
+		takes ballots away from losers and gives them to the ballot's next choice of in running candidate
+		'''
 		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
 			for ballot in non_candidate.ballots:
