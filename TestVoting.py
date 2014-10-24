@@ -315,8 +315,16 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		Voting_Run_Election(e)
 		assert e.hasTie
-		self.assertEqual(e.winner, ['',''])
-
+		self.assertEqual(e.winner, [])
+	
+	def test_Voting_Run_Election_7(self): 
+		e = Election() 
+		for c in ['A','A']:
+			e.add_candidate(Candidate(c))
+		for b in [[2,1],[1,2],[1,2]]: 
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election (e)
+		self.assertEqual(e.winner, ['A'])
 	# ---------------------
 	# Voting_Write function
 	# ---------------------
@@ -430,6 +438,11 @@ class TestVoting (TestCase) :
 		w = StringIO()
 		self.assertRaises(Exception, Voting_Solve, r, w)
 
+	def test_Voting_Solve_9 (self): 
+		r = StringIO('')
+		w = StringIO()
+		self.assertRaises(Exception, Voting_Solve, r, w)
+
 # ----
 # main
 # ----
@@ -438,9 +451,9 @@ main()
 
 '''
 16 functions tested
-43 total tests
+48 total tests
 need 48 tests total
-need 5 more tests
+need 0 more tests
 
 coverage3 run --branch TestVoting.py
 coverage3 report -m
