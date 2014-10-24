@@ -219,29 +219,15 @@ class TestVoting (TestCase) :
 
 		#length of ballot.votes < number of candidates
 		#ballot.votes contains improper preference
-
-	def test_Election_pass_votes_3 (self): 
-		f = Election()
-		for c in ["Cupcake", "Jim Kirk", "Leonard McCoy"]:
-			f.add_candidate(Candidate(c))
-		for b in [[2,2,2],[1,2,3],[3,2,1]]:
-			f.add_ballot(Ballot(b))
-		self.assertRaises(ValueError, f.pass_votes) 
-
-	def test_Election_pass_votes_4 (self):
-		g = Election()
-		for c in ["Boondocks", "Stardust","Good Omens"," "]:
-			g.add_candidate(Candidate(g))
-		for b in [[3,1],[2,3],[3,5,7]]:
-			g.add_ballot(Ballot(b))
-		self.assertRaises(ValueError, g.pass_votes)
 	
-	def test_Election_pass_votes_5 (self):
+	def test_Election_pass_votes_3 (self):
 		h = Election()
 		for c in ["Pride","Gluttony", "Wrath"]:
 			h.add_candidate(Candidate(c))
 		for b in [[76,3,1]]:
 			h.add_ballot(Ballot(b))
+		h.mark_the_losers()
+		h.pass_votes()
 		self.assertRaises(IndexError, h.pass_votes)
 
 	# -------------------------
@@ -404,7 +390,8 @@ class TestVoting (TestCase) :
 		r = StringIO('1\n\n2\nAxton\nMaya\n\n')
 		w = StringIO()
 		Voting_Solve(r,w)
-		self.assertRaises(ValueError, Voting_Solve, r,w)
+		self.assertRaises(Exception, Voting_Solve, r,w)
+
 # ----
 # main
 # ----

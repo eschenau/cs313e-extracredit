@@ -102,7 +102,7 @@ class Election(object):
 				try:
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 				except IndexError:
-					raise ValueError('Improper Input Format Error')
+					raise Exception('Improper Input Format Error')
 	
 # ---------------
 # Candidate class
@@ -246,5 +246,5 @@ def Voting_Solve(aReader,aWriter):
 		try:
 			Voting_Run_Election(list_elections[index_election])
 		except IndexError:
-			raise ValueError('Improper Input Format Error')
+			raise Exception('Improper Input Format Error')
 	Voting_Write(aWriter, list_elections)
