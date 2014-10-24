@@ -411,7 +411,7 @@ class TestVoting (TestCase) :
 		self.assertEqual(w.getvalue(),'Axton\nMaya\n\nLilith\n\nCL4P-TP\n\n')
 	
 	def test_Voting_Solve_8 (self):
-		r = StringIO('1\n\n2\nAxton\nMaya\n\n')
+		r = StringIO('2\n\n2\nAxton\nMaya\n')
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertRaises(Exception, Voting_Solve, r,w)
