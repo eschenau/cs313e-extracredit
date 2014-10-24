@@ -324,7 +324,7 @@ class TestVoting (TestCase) :
 		for b in [[2,1],[1,2],[1,2]]: 
 			e.add_ballot(Ballot(b))
 		Voting_Run_Election (e)
-		self.assertEqual(e.winner, ['A'])
+		self.assertEqual(e.winner, [''])
 	# ---------------------
 	# Voting_Write function
 	# ---------------------
@@ -442,6 +442,12 @@ class TestVoting (TestCase) :
 		r = StringIO('')
 		w = StringIO()
 		self.assertRaises(Exception, Voting_Solve, r, w)
+
+	def test_Voting_Solve_10 (self): 
+		r = StringIO ('\n')
+		w = StringIO()
+		self.assertRaises(Exception, Voting_Solve, r, w)
+
 
 # ----
 # main
