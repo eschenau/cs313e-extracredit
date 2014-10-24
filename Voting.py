@@ -93,16 +93,12 @@ class Election(object):
 		for non_candidate in losers:
 			while not not non_candidate.ballots:
 				ballot = non_candidate.ballots.pop()
-
-				try:
-					while ballot.owner < len(ballot.votes) and not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
-						ballot.owner += 1
-				except IndexError:
-					print(self)
+				while ballot.owner < len(ballot.votes) and not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
+					ballot.owner += 1
 				try:
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 				except IndexError:
-					print(self)
+					raise ImproperInputFormatError
 	
 # ---------------
 # Candidate class
@@ -120,8 +116,7 @@ class Candidate (object):
 		self.isInRunning = True
 		self.isWinner = False
 	
-	def __repr__ (self):
-				
+	def __repr__ (self):		
 		return ('Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (int(not self.isInRunning) * 'not ') + 'in the running.')
 
 	def give_ballot (self, ballot):
@@ -194,10 +189,11 @@ def Voting_Write(writer, elections):
 	'''
 	for election in elections: 
 		for candidate in election.winner:
-			writer.write(candidate)
 			if election == elections[-1]: 
-				writer.write("")
+				writer.write(candidate)
+				writer.write("\n") 
 			else:
+				writer.write(candidate)
 				writer.write('\n')
 		else: 
 			if elections.index(election) < len(elections): 
@@ -246,5 +242,5 @@ def Voting_Solve(aReader,aWriter):
 		try:
 			Voting_Run_Election(list_elections[index_election])
 		except IndexError:
-			pass
+			raise ImproperInputFormatError
 	Voting_Write(aWriter, list_elections)
