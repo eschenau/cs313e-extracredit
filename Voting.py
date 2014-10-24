@@ -246,5 +246,5 @@ def Voting_Solve(aReader,aWriter):
 		try:
 			Voting_Run_Election(list_elections[index_election])
 		except IndexError:
-			raise ImproperInputFormatError
+			raise ValueError('Improper Input Format Error')
 	Voting_Write(aWriter, list_elections)
