@@ -277,6 +277,7 @@ class TestVoting (TestCase) :
 		Voting_Run_Election(e)
 		assert e.hasWinner
 		self.assertEqual(e.winner, ['Maya'])
+
 	
 	# ---------------------
 	# Voting_Write function
