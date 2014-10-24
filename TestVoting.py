@@ -224,9 +224,6 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		e.mark_the_losers()
 		e.pass_votes()
-		#assert e.list_candidates[0].count_ballots() == 0
-		#assert e.list_candidates[1].count_ballots() == 2
-		#assert e.list_candidates[2].count_ballots() == 3
 		self.assertEqual([t.count_ballots() for t in e.list_candidates], [0, 2, 3])
 	
 	def test_Election_pass_votes_2 (self):
@@ -237,9 +234,6 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		e.mark_the_losers()
 		e.pass_votes()
-		#assert e.list_candidates[0].count_ballots() == 0
-		#assert e.list_candidates[1].count_ballots() == 0
-		#assert e.list_candidates[2].count_ballots() == 5
 		self.assertEqual([t.count_ballots() for t in e.list_candidates], [0, 0, 5])
 
 		#length of ballot.votes < number of candidates
