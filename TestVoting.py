@@ -260,10 +260,42 @@ class TestVoting (TestCase) :
 	# ---------------------
 	
 	def test_Voting_Write_1 (self):
-		r = StringIO('1\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1')
+		e = Election()
+		for c in ['Roland', 'Mordecai', 'Brick', 'Lilith']:
+			e.add_candidate(Candidate(c))
+		for b in [[1, 2, 3, 4],[1, 3, 2, 4],[2, 4, 3, 1],[2, 4, 3, 1],[2, 4, 3, 1],[3, 4, 2, 1],[3, 4, 2, 1],[3, 4, 2, 1],[4, 3, 2, 1],[4, 3, 2, 1],[4, 3, 2, 1],[4, 3, 2, 1],[4, 3, 2, 1]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
 		w = StringIO()
-		Voting_Solve(r,w)
+		Voting_Write(w, [e])
 		self.assertEqual(w.getvalue(),'Lilith\n\n')
+	
+	def test_Voting_Write_2 (self):
+		e = Election()
+		for c in ['Athena', 'Wilhelm', 'Nisha', 'Claptrap']:
+			e.add_candidate(Candidate(c))
+		for b in [[1,2,3,4],[2,3,4,1],[3,4,1,2],[4,1,2,3]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		w = StringIO()
+		Voting_Write(w, [e])
+		self.assertEqual(w.getvalue(),'Athena\nWilhelm\nNisha\nClaptrap\n\n')
+	
+	def test_Voting_Write_3 (self):
+		e = [Election(),Election()]
+		for c in ['Handsome Jack']:
+			e[0].add_candidate(Candidate(c))
+		for c in ['Gaige','KRIEG!']:
+			e[1].add_candidate(Candidate(c))
+		for b in [[1],[1],[1]]:
+			e[0].add_ballot(Ballot(b))
+		for b in [[1, 2], [2, 1], [1, 2]]:
+			e[1].add_ballot(Ballot(b))
+		for te in e:
+			Voting_Run_Election(te)
+		w = StringIO()
+		Voting_Write(w, e)
+		self.assertEqual(w.getvalue(), 'Handsome Jack\n\nGaige\n\n')
 	
 	# --------------------
 	# Voting_Solve function
