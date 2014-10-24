@@ -166,6 +166,10 @@ class Ballot (object):
 		self.owner = 0
 	
 	def __repr__  (self):
+		'''
+		represent method allows visualization of data processing
+		included for debugging purposes
+		'''
 		return ('Ballot: ' + str(self.votes) + '\nCurrent owner: ' + str(self.votes[self.owner]) + '. Ballot position: ' + str(self.owner))
 
 # -------------------------
