@@ -19,7 +19,11 @@ class Election(object):
 		self.winner = []
 	
 	def __repr__ (self):
-		return ('Candidates:\n' + str([(candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running. ') for candies in self.list_candidates]) + '\nThere is ' + (not self.hasWinner or not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner))
+		retstr = 'Candidates:\n'
+		for candies in self.list_candidates:
+			retstr += candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running.\n'
+		retstr += '\nThere is ' + (not self.hasWinner or not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner)
+		return retstr
 
 	def add_candidate(self, candidate):
 		'''
@@ -98,7 +102,7 @@ class Election(object):
 				try:
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 				except IndexError:
-					raise ImproperInputFormatError
+					raise ValueError('Improper Input Format Error')
 	
 # ---------------
 # Candidate class
@@ -153,7 +157,7 @@ class Ballot (object):
 		self.owner = 0
 	
 	def __repr__  (self):
-		return ('Ballot: ' + str(self.votes) + '\nCurrent owner: ' + str(self.votes[self.owner] - 1) + ' ' + str(self.owner))
+		return ('Ballot: ' + str(self.votes) + '\nCurrent owner: ' + str(self.votes[self.owner]) + '. Ballot position: ' + str(self.owner))
 
 # -------------------------
 # Voting_Read_File function
