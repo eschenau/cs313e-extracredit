@@ -22,7 +22,7 @@ class Election(object):
 		retstr = 'Candidates:\n'
 		for candies in self.list_candidates:
 			retstr += candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running.\n'
-		retstr += '\nThere is ' + (not self.hasWinner or not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner)
+		retstr += '\nThere is ' + (not self.hasWinner and not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner)
 		return retstr
 
 	def add_candidate(self, candidate):
