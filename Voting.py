@@ -17,7 +17,7 @@ class Election(object):
 		self.hasWinner = False
 		self.hasTie = False
 		self.winner = []
-
+	
 	def __repr__ (self):
 		return ('Candidates:\n' + str([(candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running. ') for candies in self.list_candidates]) + '\nThere is ' + (not self.hasWinner or not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner))
 
@@ -90,12 +90,20 @@ class Election(object):
 		'''
 		losers = [t for t in self.list_candidates if not t.isInRunning]
 		for non_candidate in losers:
+			while not not non_candidate.ballots:
+				ballot = non_candidate.ballots.pop()
+				#non_candidate.take_ballot(ballot)
+				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning and ballot.owner < len(ballot.votes):
+					ballot.owner += 1
+				self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
+			'''	
 			for ballot in non_candidate.ballots:
 				assert ballot in non_candidate.ballots
 				non_candidate.take_ballot(ballot)
 				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
 					ballot.owner += 1
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
+			'''
 
 # ---------------
 # Candidate class
@@ -112,7 +120,7 @@ class Candidate (object):
 		self.ballots = []
 		self.isInRunning = True
 		self.isWinner = False
-
+	
 	def __repr__ (self):
 		return 'Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (not self.isInRunning * 'not ') + 'in the running.'
 
@@ -148,7 +156,7 @@ class Ballot (object):
 		'''
 		self.votes = tuple(preferences)
 		self.owner = 0
-
+	
 	def __repr__  (self):
 		return ('Ballot: ' + str(self.votes) + '\nCurrent owner: ' + str(self.votes[self.owner] - 1) + ' ' + str(self.owner))
 
