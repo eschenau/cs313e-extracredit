@@ -255,6 +255,16 @@ class TestVoting (TestCase) :
 		assert e.hasTie
 		self.assertEqual(e.winner, ['Roland', 'Mordecai', 'Brick', 'Lilith'])
 	
+	def test_Voting_Run_Election_3 (self):
+		e = Election()
+		for c in ['Axton', 'Maya', 'Salvador', 'Zer0']:
+			e.add_candidate(Candidate(c))
+		for b in [[2, 3, 4, 1],[2, 3, 4, 1],[2, 3, 4, 1],[2, 3, 4, 1],[2, 3, 4, 1],[2, 3, 4, 1],[4, 2, 3, 1],[4, 2, 3, 1],[4, 2, 3, 1],[4, 2, 3, 1],[3, 4, 2, 1],[3, 2, 4, 1],[1, 3, 4, 2]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasWinner
+		self.assertEqual(e.winner, ['Maya'])
+	
 	# ---------------------
 	# Voting_Write function
 	# ---------------------
@@ -297,6 +307,26 @@ class TestVoting (TestCase) :
 		Voting_Write(w, e)
 		self.assertEqual(w.getvalue(), 'Handsome Jack\n\nGaige\n\n')
 	
+	def test_Voting_Write_4 (self):
+		e = [Election(),Election(),Election()]
+		for c in ['Handsome Jack']:
+			e[0].add_candidate(Candidate(c))
+		for c in ['Gaige','KRIEG!']:
+			e[1].add_candidate(Candidate(c))
+		for c in ['Skag','Bullymong','Rakk']:
+			e[2].add_candidate(Candidate(c))
+		for b in [[1],[1],[1]]:
+			e[0].add_ballot(Ballot(b))
+		for b in [[1, 2], [2, 1]]:
+			e[1].add_ballot(Ballot(b))
+		for b in [[2, 1, 3], [3, 1, 2], [1, 3, 2], [2, 3, 1]]:
+			e[2].add_ballot(Ballot(b))
+		for te in e:
+			Voting_Run_Election(te)
+		w = StringIO()
+		Voting_Write(w, e)
+		self.assertEqual(w.getvalue(), 'Handsome Jack\n\nGaige\nKRIEG!\n\nBullymong\n\n')
+	
 	# --------------------
 	# Voting_Solve function
 	# --------------------
@@ -324,6 +354,24 @@ class TestVoting (TestCase) :
 		w = StringIO()
 		Voting_Solve(r,w)
 		self.assertEqual(w.getvalue(),'CL4P-TP\n\nKRIEG!\n\n')
+	
+	def test_Voting_Solve_5 (self):
+		r = StringIO('1\n\n4\nAxton\nMaya\nSalvador\nZer0\n2 1 4 3\n1 2 4 3\n2 3 4 1\n1 4 3 2\n')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'Axton\nMaya\n\n')
+		
+	def test_Voting_Solve_6 (self):
+		r = StringIO('2\n\n4\nAxton\nMaya\nSalvador\nZer0\n2 1 4 3\n1 2 4 3\n2 3 4 1\n1 4 3 2\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'Axton\nMaya\n\nLilith\n\n')
+	
+	def test_Voting_Solve_7 (self):
+		r = StringIO('3\n\n4\nAxton\nMaya\nSalvador\nZer0\n2 1 4 3\n1 2 4 3\n2 3 4 1\n1 4 3 2\n\n4\nRoland\nMordecai\nBrick\nLilith\n1 2 3 4\n1 3 2 4\n2 4 3 1\n2 4 3 1\n2 4 3 1\n3 4 2 1\n3 4 2 1\n3 4 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n4 3 2 1\n\n1\nCL4P-TP\n1\n1\n1\n')
+		w = StringIO()
+		Voting_Solve(r,w)
+		self.assertEqual(w.getvalue(),'Axton\nMaya\n\nLilith\n\nCL4P-TP\n\n')
 
 # ----
 # main
@@ -333,9 +381,9 @@ main()
 
 '''
 16 functions tested
-31 total tests
+38 total tests
 need 48 tests total
-need 17 more tests
+need 10 more tests
 
 coverage3 run --branch TestVoting.py
 coverage3 report -m
