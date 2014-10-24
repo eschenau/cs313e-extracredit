@@ -63,7 +63,8 @@ class Election(object):
 		looks through the elections list of in running candidates and determines if there is a tie
 		returns true if there is a tie
 		'''
-		tie_check = [self.list_candidates[0].count_ballots() == candidate.count_ballots() for candidate in self.list_candidates[1:] if candidate.isInRunning]
+		inRunning = [t for t in self.list_candidates if t.isInRunning]
+		tie_check = [inRunning[0].count_ballots() == candidate.count_ballots() for candidate in inRunning[1:]]
 		theres_a_tie = True
 		for check in tie_check:
 			theres_a_tie = theres_a_tie and check
@@ -93,9 +94,15 @@ class Election(object):
 			while not not non_candidate.ballots:
 				ballot = non_candidate.ballots.pop()
 				#non_candidate.take_ballot(ballot)
-				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning and ballot.owner < len(ballot.votes):
-					ballot.owner += 1
-				self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
+				try:
+					while ballot.owner < len(ballot.votes) and not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
+						ballot.owner += 1
+				except IndexError:
+					print(self)
+				try:
+					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
+				except IndexError:
+					print(self)
 			'''	
 			for ballot in non_candidate.ballots:
 				assert ballot in non_candidate.ballots
@@ -122,7 +129,7 @@ class Candidate (object):
 		self.isWinner = False
 	
 	def __repr__ (self):
-		return 'Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (not self.isInRunning * 'not ') + 'in the running.'
+		return ('Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (int(not self.isInRunning) * 'not ') + 'in the running.')
 
 	def give_ballot (self, ballot):
 		'''
