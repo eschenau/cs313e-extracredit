@@ -20,7 +20,8 @@ class Election(object):
 	
 	def __repr__ (self):
 		'''
-		including repr method for debugging purposes
+		represent method allows visualization of data processing
+		included for debugging purposes
 		'''
 
 		retstr = 'Candidates:\n'
@@ -126,7 +127,8 @@ class Candidate (object):
 	
 	def __repr__ (self):
 		'''
-		including repr method for debugging purposes
+		represent method allows visualization of data processing
+		included for debugging purposes
 		'''		
 		return ('Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (int(not self.isInRunning) * 'not ') + 'in the running.')
 
