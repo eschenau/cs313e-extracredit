@@ -224,9 +224,10 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		e.mark_the_losers()
 		e.pass_votes()
-		assert e.list_candidates[0].count_ballots() == 0
-		assert e.list_candidates[1].count_ballots() == 2
-		assert e.list_candidates[2].count_ballots() == 3
+		#assert e.list_candidates[0].count_ballots() == 0
+		#assert e.list_candidates[1].count_ballots() == 2
+		#assert e.list_candidates[2].count_ballots() == 3
+		self.assertEqual([t.count_ballots() for t in e.list_candidates], [0, 2, 3])
 	
 	def test_Election_pass_votes_2 (self):
 		e = Election()
@@ -236,22 +237,13 @@ class TestVoting (TestCase) :
 			e.add_ballot(Ballot(b))
 		e.mark_the_losers()
 		e.pass_votes()
-		assert e.list_candidates[0].count_ballots() == 0
-		assert e.list_candidates[1].count_ballots() == 0
-		assert e.list_candidates[2].count_ballots() == 5
+		#assert e.list_candidates[0].count_ballots() == 0
+		#assert e.list_candidates[1].count_ballots() == 0
+		#assert e.list_candidates[2].count_ballots() == 5
+		self.assertEqual([t.count_ballots() for t in e.list_candidates], [0, 0, 5])
 
 		#length of ballot.votes < number of candidates
 		#ballot.votes contains improper preference
-	
-	def test_Election_pass_votes_3 (self):
-		h = Election()
-		for c in ["Pride","Gluttony", "Wrath"]:
-			h.add_candidate(Candidate(c))
-		for b in [[76,3,1]]:
-			h.add_ballot(Ballot(b))
-		h.mark_the_losers()
-		h.pass_votes()
-		self.assertRaises(IndexError, h.pass_votes)
 
 	# -------------------------
 	# Voting_Read_File function
