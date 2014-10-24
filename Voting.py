@@ -18,6 +18,9 @@ class Election(object):
 		self.hasTie = False
 		self.winner = []
 
+	def __repr__ (self):
+		return ('Candidates:\n' + str([(candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running. ') for candies in self.list_candidates]) + '\nThere is ' + (not self.hasWinner or not self.hasTie)*'not ' + 'a winner.\n' + str(self.winner))
+
 	def add_candidate(self, candidate):
 		'''
 		add a candidate to the election's list of candidates
@@ -110,6 +113,9 @@ class Candidate (object):
 		self.isInRunning = True
 		self.isWinner = False
 
+	def __repr__ (self):
+		return 'Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (not self.isInRunning * 'not ') + 'in the running.'
+
 	def give_ballot (self, ballot):
 		'''
 		adds a ballot to candidate's list of ballots
@@ -142,6 +148,9 @@ class Ballot (object):
 		'''
 		self.votes = tuple(preferences)
 		self.owner = 0
+
+	def __repr__  (self):
+		return ('Ballot: ' + str(self.votes) + '\nCurrent owner: ' + str(self.votes[self.owner] - 1) + ' ' + str(self.owner))
 
 # -------------------------
 # Voting_Read_File function
