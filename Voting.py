@@ -36,8 +36,8 @@ class Election(object):
 
 	def look_for_winner (self):
 		'''
-		looks through the election's list of in running candidates and determines if there is a winner
-		returns true if there is a winner
+		looking through election's list of candidates in running
+		boolean return -- True : winner present, False : winner not present
 		'''
 		if len(self.list_candidates) == 1:
 			self.hasWinner = True
@@ -93,7 +93,7 @@ class Election(object):
 		for non_candidate in losers:
 			while not not non_candidate.ballots:
 				ballot = non_candidate.ballots.pop()
-				#non_candidate.take_ballot(ballot)
+
 				try:
 					while ballot.owner < len(ballot.votes) and not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
 						ballot.owner += 1
@@ -103,15 +103,7 @@ class Election(object):
 					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
 				except IndexError:
 					print(self)
-			'''	
-			for ballot in non_candidate.ballots:
-				assert ballot in non_candidate.ballots
-				non_candidate.take_ballot(ballot)
-				while not self.list_candidates[ballot.votes[ballot.owner] - 1].isInRunning:
-					ballot.owner += 1
-					self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
-			'''
-
+	
 # ---------------
 # Candidate class
 # ---------------
@@ -129,6 +121,7 @@ class Candidate (object):
 		self.isWinner = False
 	
 	def __repr__ (self):
+				
 		return ('Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (int(not self.isInRunning) * 'not ') + 'in the running.')
 
 	def give_ballot (self, ballot):
@@ -158,7 +151,7 @@ class Ballot (object):
 	'''
 	def __init__ (self, preferences):
 		'''
-		construct a ballot object out of a group of voting preferences
+		construct a ballot object out of a line containing voting preferences
 		sets an index to the first preference
 		'''
 		self.votes = tuple(preferences)
@@ -202,13 +195,15 @@ def Voting_Write(writer, elections):
 	for election in elections: 
 		for candidate in election.winner:
 			writer.write(candidate)
-			writer.write('\n')
+			if election == elections[-1]: 
+				writer.write("")
+			else:
+				writer.write('\n')
 		else: 
 			if elections.index(election) < len(elections): 
 				writer.write('\n')
-			#print () We don't want to print() anything
-		#print () All output must go to the writer, not stdout
-
+	
+	
 # ---------------------
 # Voting_Solve function
 # ---------------------
@@ -248,5 +243,8 @@ def Voting_Solve(aReader,aWriter):
 		else:
 			list_elections[index_election].add_candidate(Candidate(render_line))
 	else:
-		Voting_Run_Election(list_elections[index_election])
+		try:
+			Voting_Run_Election(list_elections[index_election])
+		except IndexError:
+			pass
 	Voting_Write(aWriter, list_elections)
