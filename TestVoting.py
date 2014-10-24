@@ -319,7 +319,7 @@ class TestVoting (TestCase) :
 	
 	def test_Voting_Run_Election_7(self): 
 		e = Election() 
-		for c in ['A','A']:
+		for c in ['','']:
 			e.add_candidate(Candidate(c))
 		for b in [[2,1],[1,2],[1,2]]: 
 			e.add_ballot(Ballot(b))
