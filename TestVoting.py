@@ -287,7 +287,36 @@ class TestVoting (TestCase) :
 		assert e.hasWinner
 		self.assertEqual(e.winner, ['Maya'])
 
+	def test_Voting_Run_Election_4 (self):
+		e = Election()
+		for c in ['Gaige', 'KRIEG!']:
+			e.add_candidate(Candidate(c))
+		for b in [[1, 2], [2, 1], [1, 2]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasWinner
+		self.assertEqual(e.winner, ['Gaige'])
+
+	def test_Voting_Run_Election_5 (self):
+		e = Election()
+		for c in ['Athena', 'Wilhelm', 'Nisha', 'Claptrap']:
+			e.add_candidate(Candidate(c))
+		for b in [[2, 4, 3, 1], [3, 4, 1, 2], [1, 4, 2, 3], [4, 3, 2, 1], [4, 1, 2, 3]]:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasWinner
+		self.assertEqual(e.winner, ['Claptrap'])
 	
+	def test_Voting_Run_Election_6 (self):
+		e = Election()
+		for c in []:
+			e.add_candidate(Candidate(c))
+		for b in []:
+			e.add_ballot(Ballot(b))
+		Voting_Run_Election(e)
+		assert e.hasTie
+		self.assertEqual(e.winner, ['',''])
+
 	# ---------------------
 	# Voting_Write function
 	# ---------------------
@@ -397,10 +426,9 @@ class TestVoting (TestCase) :
 		self.assertEqual(w.getvalue(),'Axton\nMaya\n\nLilith\n\nCL4P-TP\n\n')
 	
 	def test_Voting_Solve_8 (self):
-		r = StringIO('2\n\n2\nAxton\nMaya\n')
+		r = StringIO('1\n\n2\nAxton\nMaya\n2 1\n\n2\nSalvador\nZer0\n2 1\n')
 		w = StringIO()
-		Voting_Solve(r,w)
-		self.assertRaises(Exception, Voting_Solve, r,w)
+		self.assertRaises(Exception, Voting_Solve, r, w)
 
 # ----
 # main
