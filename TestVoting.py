@@ -38,6 +38,13 @@ class TestVoting (TestCase) :
 		b = Ballot([1])
 		self.assertEqual(b.votes[b.owner], 1)
 
+	def test_Ballot_repr_1 (self):
+		b = Ballot([1,2,3])
+		w = StringIO()
+		w.write(str(b))
+		wout = 'Ballot: (1, 2, 3)\nCurrent owner: 1. Ballot position: 0'
+		self.assertEqual(w.getvalue(),wout)
+
 	# ---------------
 	# Candidate Class
 	# ---------------
@@ -47,6 +54,13 @@ class TestVoting (TestCase) :
 		assert not c.ballots
 		assert c.isInRunning
 		assert not c.isWinner
+
+	def test_Candidate_repr_1 (self):
+		c = Candidate('Handsome Jack')
+		w = StringIO()
+		w.write(str(c))
+		wout = 'Candidate: Handsome Jack. Ballots: 0. This candidate is in the running.'
+		self.assertEqual(w.getvalue(), wout)
 	
 	def test_Candidate_give_ballot_1 (self):
 		c = Candidate('CL4P-TP')
@@ -100,6 +114,15 @@ class TestVoting (TestCase) :
 		assert not e.hasWinner
 		assert not e.hasTie
 		assert not e.winner
+
+	def test_Election_repr_1 (self):
+		e = Election()
+		e.add_candidate(Candidate('Handsome Jack'))
+		e.add_ballot(Ballot([1]))
+		w = StringIO()
+		w.write(str(e))
+		wout = 'Candidates:\nHandsome Jack  Ballots: 1, and is in the running.\n\nThere is not a winner.\n[]'
+		self.assertEqual(w.getvalue(), wout)
 	
 	def test_Election_add_candidate_1 (self):
 		e = Election()
