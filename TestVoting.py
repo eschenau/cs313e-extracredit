@@ -123,7 +123,6 @@ class TestVoting (TestCase) :
 		w.write(str(e))
 		wout = 'Candidates:\nHandsome Jack  Ballots: 1, and is in the running.\n\nThere is not a winner.\n[]'
 		self.assertEqual(w.getvalue(), wout)
-
 	
 	def test_Election_add_candidate_1 (self):
 		e = Election()
@@ -301,6 +300,7 @@ class TestVoting (TestCase) :
 		Voting_Run_Election(e)
 		assert e.hasWinner
 		self.assertEqual(e.winner, ['Maya'])
+
 	
 	# ---------------------
 	# Voting_Write function
