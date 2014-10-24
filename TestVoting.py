@@ -447,6 +447,11 @@ class TestVoting (TestCase) :
 		r = StringIO ('\n')
 		w = StringIO()
 		self.assertRaises(Exception, Voting_Solve, r, w)
+	
+	def test_Voting_Solve_11 (self):
+		r = StringIO('2\n\n2\nAxton\nMaya\n2 1\n\n2\nSalvador\nZer0\n2 1\n\nGaige\nKRIEG!\n')
+		w = StringIO()
+		self.assertRaises(Exception, Voting_Solve, r, w)
 
 
 # ----
