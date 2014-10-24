@@ -1,23 +1,11 @@
-...........................E...........
-======================================================================
-ERROR: test_Voting_Run_Election_3 (__main__.TestVoting)
+..................................................
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestVoting.py", line 264, in test_Voting_Run_Election_3
-    Voting_Run_Election(e)
-  File "/v/filer4b/v35q001/ees847/cs313e-voting/Voting.py", line 169, in Voting_Run_Election
-    election.pass_votes()
-  File "/v/filer4b/v35q001/ees847/cs313e-voting/Voting.py", line 95, in pass_votes
-    self.list_candidates[ballot.votes[ballot.owner] - 1].give_ballot(ballot)
-IndexError: tuple index out of range
+Ran 50 tests in 0.010s
 
-----------------------------------------------------------------------
-Ran 39 tests in 0.010s
-
-FAILED (errors=1)
+OK
 Name         Stmts   Miss Branch BrMiss  Cover   Missing
 --------------------------------------------------------
-TestVoting     300      4     66      1    99%   253, 265-266, 382
-Voting         119      0     68      1    99%   
+TestVoting     367      4     86      3    98%   275, 313, 315, 463
+Voting         138      3     74      1    98%   109-110, 258
 --------------------------------------------------------
-TOTAL          419      4    134      2    99%   
+TOTAL          505      7    160      4    98%   
