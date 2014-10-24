@@ -19,6 +19,10 @@ class Election(object):
 		self.winner = []
 	
 	def __repr__ (self):
+		'''
+		including repr method for debugging purposes
+		'''
+
 		retstr = 'Candidates:\n'
 		for candies in self.list_candidates:
 			retstr += candies.name + '  Ballots: ' + str(candies.count_ballots()) + ', and is ' + (not candies.isInRunning)*'not ' + 'in the running.\n'
@@ -120,7 +124,10 @@ class Candidate (object):
 		self.isInRunning = True
 		self.isWinner = False
 	
-	def __repr__ (self):		
+	def __repr__ (self):
+		'''
+		including repr method for debugging purposes
+		'''		
 		return ('Candidate: ' + self.name + '. Ballots: ' + str(self.count_ballots()) + '. This candidate is ' + (int(not self.isInRunning) * 'not ') + 'in the running.')
 
 	def give_ballot (self, ballot):
